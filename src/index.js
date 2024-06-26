@@ -1,6 +1,9 @@
 import express from "express";
+
+import "./config/dotenv.js";
 import pool from "./db/connection.js";
 
+// Express
 const app = express();
 const port = 3000;
 
