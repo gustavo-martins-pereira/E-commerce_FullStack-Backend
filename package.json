@@ -1,0 +1,23 @@
+{
+    "name": "ecommerce-fullstack-backend",
+    "version": "1.0.0",
+    "description": "Backend for the \"E-Commerce FullStack\" project",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon src/index.js"
+    },
+    "keywords": [
+        "postgresql",
+        "express"
+    ],
+    "author": "Gustavo Martins Pereira",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "express": "^4.19.2",
+        "pg": "^8.12.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    }
+}
