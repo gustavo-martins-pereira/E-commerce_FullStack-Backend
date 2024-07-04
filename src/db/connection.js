@@ -1,14 +1,19 @@
-import pg from "pg";
+import { PostgresDialect } from "@sequelize/postgres";
+import { Sequelize } from "@sequelize/core";
 
-const { Pool } = pg;
-const pool = new Pool({
+// CONNECTION
+const sequelize = new Sequelize({
+    dialect: PostgresDialect,
+    database: process.env.POSTGRESQL_DATABASE,
     user: process.env.POSTGRESQL_USER,
     password: process.env.POSTGRESQL_PASSWORD,
     host: process.env.POSTGRESQL_HOST,
     port: process.env.POSTGRESQL_PORT,
-    database: process.env.POSTGRESQL_DATABASE,
 });
 
-await pool.connect();
-
-export default pool;
+try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+} catch (error) {
+    console.error("Unable to connect to the database:", error);
+}
