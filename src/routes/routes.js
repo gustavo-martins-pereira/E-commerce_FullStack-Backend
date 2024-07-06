@@ -1,9 +1,10 @@
 import express from "express";
-import { getAppIsRunning } from "./app.js";
+
+import { registerUser } from "../controllers/userController.js";
 
 const routes = express.Router();
 
-// APP
-routes.get("/test-api", getAppIsRunning);
+// USER
+routes.post("/register", registerUser);
 
 export default routes;

@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "description": "Backend for the \"E-Commerce FullStack\" project",
     "type": "module",
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
-        "start": "nodemon src/index.js"
+        "start": "nodemon src/server.js"
     },
     "keywords": [
         "postgresql",

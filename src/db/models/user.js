@@ -16,11 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     User.init({
         username: DataTypes.STRING,
         password: DataTypes.STRING,
-        role: DataTypes.ENUM,
+        role: DataTypes.ENUM("USER", "SELLER"),
     }, {
         sequelize,
         modelName: "User",
         tableName: "users",
+        underscored: true,
     });
     return User;
 };
