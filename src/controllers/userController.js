@@ -11,7 +11,7 @@ async function registerUser(request, response) {
 
         response.json(user);
     } catch (error) {
-        response.status(500).send('Internal Server Error');
+        response.status(500).send(error);
     }
 };
 
