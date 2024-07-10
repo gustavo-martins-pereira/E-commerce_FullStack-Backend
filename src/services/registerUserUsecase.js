@@ -4,7 +4,7 @@ import CustomError from "../utils/errors/customError.js";
 
 async function registerUserUseCase({ username, password, role }) {
     const existingUser = await getUserByUsername(username);
-    if (existingUser) {
+    if(existingUser) {
         throw new CustomError(409, "Username already exists");
     }
 
