@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { getUserByUsername } from "../repositories/userRepository.js";
 import CustomError from "../utils/errors/customError.js";
@@ -10,7 +11,9 @@ async function loginUserUseCase({ username, password }) {
         throw new CustomError(400, "Invalid credentials");
     }
 
-    return {username, password};
+    const token = jwt.sign({ username: user.username, password: user.password}, process.env.JWT_KEY, {expiresIn: 3600});
+
+    return token;
 }
 
 export {

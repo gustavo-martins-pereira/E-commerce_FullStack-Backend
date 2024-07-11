@@ -26,14 +26,20 @@ async function registerUser(request, response) {
 };
 
 async function loginUser(request, response) {
+    const result = validationResult(request);
+
+    if(!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
     try {
         const {
             username,
             password
         } = request.body;
-        const user = await loginUserUseCase({ username, password });
+        const token = await loginUserUseCase({ username, password });
 
-        return response.status(200).json(user);
+        return response.status(200).json({ token });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }

@@ -19,6 +19,18 @@ const postRegisterUserValidator = [
         .isIn(["USER", "SELLER"]).withMessage("The role must be \"USER\" or \"SELLER\"")
 ];
 
+const postLoginUserValidator = [
+    body("username")
+        .isString().withMessage("The username must be a string")
+        .trim().notEmpty().withMessage("The username cannot be empty")
+        .escape(),
+    body("password")
+        .isString().withMessage("The password must be a string")
+        .trim().notEmpty().withMessage("The password cannot be empty")
+        .escape(),
+];
+
 export {
     postRegisterUserValidator,
+    postLoginUserValidator,
 };
