@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const postRegisterUserValidator = [
     body("username")
@@ -30,7 +30,15 @@ const postLoginUserValidator = [
         .escape(),
 ];
 
+
+const getUserByUsernameValidator = [
+    param("username")
+        .trim().notEmpty().withMessage("The username cannot be empty")
+        .escape(),
+];
+
 export {
     postRegisterUserValidator,
     postLoginUserValidator,
+    getUserByUsernameValidator,
 };
