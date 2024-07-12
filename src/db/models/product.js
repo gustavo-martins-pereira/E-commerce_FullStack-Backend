@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Product.belongsTo(models.User, { foreignKey: "owner_id" });
+            Product.belongsTo(models.User, { foreignKey: "ownerId" });
         }
     }
     Product.init({
@@ -60,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
         ownerId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "owner_id",
             validate: {
                 notNull: {
                     msg: "Owner ID is required",

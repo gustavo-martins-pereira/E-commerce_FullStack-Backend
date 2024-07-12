@@ -2,7 +2,7 @@ import express from "express";
 
 import { getUserByUsername, loginUser, registerUser } from "../controllers/userController.js";
 import { getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
-import { createProduct } from "../controllers/productController.js";
+import { createProduct, getAllProducts } from "../controllers/productController.js";
 import { postCreateProductValidator } from "./validators/productValidators.js";
 
 const routes = express.Router();
@@ -15,5 +15,6 @@ routes.get("/users/:username", getUserByUsernameValidator, getUserByUsername);
 
 // PRODUCT
 routes.post("/products", postCreateProductValidator, createProduct);
+routes.get("/products", getAllProducts);
 
 export default routes;
