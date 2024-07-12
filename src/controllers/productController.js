@@ -3,6 +3,7 @@ import { createProductUseCase } from "../services/product/createProductUsecase.j
 import CustomError from "../utils/errors/customError.js";
 import { getAllProductsUseCase } from "../services/product/getAllProductsUsecase.js";
 import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase.js";
+import { getProductsBySellerIdUsecase } from "../services/product/getProductsBySellerIdUsecase.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
@@ -47,8 +48,19 @@ async function getProductById(request, response) {
     }
 }
 
+async function getProductsBySellerId(request, response) {
+    try {
+        const products = await getProductsBySellerIdUsecase(request.params.sellerId);
+
+        return response.status(200).json(products);
+    } catch (error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
 export {
     createProduct,
     getAllProducts,
     getProductById,
+    getProductsBySellerId,
 };

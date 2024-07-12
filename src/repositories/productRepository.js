@@ -18,9 +18,18 @@ async function getProductByName(name) {
     return await Product.findOne({ where: { name } });
 }
 
+async function getProductsBySellerId(sellerId) {
+    return await Product.findAll({
+        where: {
+            ownerId: sellerId
+        }
+    });
+}
+
 export {
     createProduct,
     getAllProducts,
     getProductById,
     getProductByName,
+    getProductsBySellerId,
 };
