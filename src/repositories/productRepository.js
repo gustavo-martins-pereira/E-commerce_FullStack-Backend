@@ -10,6 +10,10 @@ async function getAllProducts() {
     return await Product.findAll();
 }
 
+async function getProductById(id) {
+    return await Product.findByPk(id);
+}
+
 async function getProductByName(name) {
     return await Product.findOne({ where: { name } });
 }
@@ -17,5 +21,6 @@ async function getProductByName(name) {
 export {
     createProduct,
     getAllProducts,
+    getProductById,
     getProductByName,
 };

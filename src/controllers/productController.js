@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import { createProductUseCase } from "../services/product/createProductUsecase.js";
 import CustomError from "../utils/errors/customError.js";
 import { getAllProductsUseCase } from "../services/product/getAllProductsUsecase.js";
+import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
@@ -36,7 +37,18 @@ async function getAllProducts(request, response) {
     }
 }
 
+async function getProductById(request, response) {
+    try {
+        const product = await getProductByIdUsecase(request.params.id);
+
+        return response.status(200).json(product);
+    } catch (error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
 export {
     createProduct,
     getAllProducts,
+    getProductById,
 };
