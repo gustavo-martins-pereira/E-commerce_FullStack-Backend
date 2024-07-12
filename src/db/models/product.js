@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
             validate: {
                 notNull: {
                     msg: "Product name is required",
@@ -58,11 +57,27 @@ module.exports = (sequelize, DataTypes) => {
                 },
             },
         },
+        ownerId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: "owner_id",
+            validate: {
+                notNull: {
+                    msg: "Owner ID is required",
+                },
+            },
+        },
     }, {
         sequelize,
         modelName: "Product",
         tableName: "products",
         underscored: true,
+        indexes: [
+            {
+                unique: true,
+                fields: ['name', 'ownerId'],
+            },
+        ],
     });
     return Product;
 };

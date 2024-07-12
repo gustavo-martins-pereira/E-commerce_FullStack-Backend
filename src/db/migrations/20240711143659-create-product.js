@@ -12,7 +12,6 @@ module.exports = {
             name: {
                 type: Sequelize.STRING(100),
                 allowNull: false,
-                unique: true,
             },
             description: {
                 type: Sequelize.TEXT,
@@ -41,6 +40,11 @@ module.exports = {
                 allowNull: false,
                 defaultValue: Sequelize.fn("now"),
             },
+        });
+
+        await queryInterface.addConstraint("products", {
+            fields: ["name", "owner_id"],
+            type: "unique",
         });
     },
     async down(queryInterface, Sequelize) {

@@ -6,11 +6,16 @@ async function createUser({ username, password, role }) {
     return await User.create({ username, password, role });
 }
 
+async function getUserById(id) {
+    return await User.findByPk(id);
+}
+
 async function getUserByUsername(username) {
     return await User.findOne({ where: { username } });
 }
 
 export {
     createUser,
+    getUserById,
     getUserByUsername,
 };

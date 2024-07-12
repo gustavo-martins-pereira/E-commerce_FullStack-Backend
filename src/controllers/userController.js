@@ -1,8 +1,8 @@
 import { matchedData, validationResult } from "express-validator";
-import { registerUserUseCase } from "../services/registerUserUsecase.js";
+import { registerUserUseCase } from "../services/user/registerUserUsecase.js";
 import CustomError from "../utils/errors/customError.js";
-import { loginUserUseCase } from "../services/loginUserUsecase.js";
-import { getUserByUsernameUsecase } from "../services/getUserByUsernameUsecase.js";
+import { loginUserUseCase } from "../services/user/loginUserUsecase.js";
+import { getUserByUsernameUsecase } from "../services/user/getUserByUsernameUsecase.js";
 
 async function registerUser(request, response) {
     const result = validationResult(request);

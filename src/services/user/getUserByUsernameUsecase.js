@@ -1,4 +1,4 @@
-import { getUserByUsername } from "../repositories/userRepository.js";
+import { getUserByUsername } from "../../repositories/userRepository.js";
 
 async function getUserByUsernameUsecase(username) {
     return await getUserByUsername(username);

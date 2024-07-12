@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { getUserByUsername } from "../repositories/userRepository.js";
-import CustomError from "../utils/errors/customError.js";
+import { getUserByUsername } from "../../repositories/userRepository.js";
+import CustomError from "../../utils/errors/customError.js";
 
 async function loginUserUseCase({ username, password }) {
     const user = await getUserByUsername(username);

@@ -1,6 +1,6 @@
-import { createUser, getUserByUsername } from "../repositories/userRepository.js";
-import hashPassword from "../utils/encryption.js";
-import CustomError from "../utils/errors/customError.js";
+import { createUser, getUserByUsername } from "../../repositories/userRepository.js";
+import hashPassword from "../../utils/encryption.js";
+import CustomError from "../../utils/errors/customError.js";
 
 async function registerUserUseCase({ username, password, role }) {
     const existingUser = await getUserByUsername(username);
