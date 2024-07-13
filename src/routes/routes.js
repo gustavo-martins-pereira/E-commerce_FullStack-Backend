@@ -2,7 +2,7 @@ import express from "express";
 
 import { getUserByUsername, loginUser, registerUser } from "../controllers/userController.js";
 import { getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
-import { createProduct, getAllProducts, getProductById, getProductsBySellerId } from "../controllers/productController.js";
+import { createProduct, getAllProducts, getProductById, getProductsBySellerId, updateProductById } from "../controllers/productController.js";
 import { postCreateProductValidator } from "./validators/productValidators.js";
 
 const routes = express.Router();
@@ -18,5 +18,6 @@ routes.post("/products", postCreateProductValidator, createProduct);
 routes.get("/products", getAllProducts);
 routes.get("/products/:id", getProductById);
 routes.get("/products/seller/:sellerId", getProductsBySellerId);
+routes.put("/products/:id", updateProductById);
 
 export default routes;

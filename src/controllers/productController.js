@@ -4,6 +4,7 @@ import CustomError from "../utils/errors/customError.js";
 import { getAllProductsUseCase } from "../services/product/getAllProductsUsecase.js";
 import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase.js";
 import { getProductsBySellerIdUsecase } from "../services/product/getProductsBySellerIdUsecase.js";
+import { updateProductByIdUsecase } from "../services/product/updateProductByIdUsecase.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
@@ -58,9 +59,27 @@ async function getProductsBySellerId(request, response) {
     }
 }
 
+async function updateProductById(request, response) {
+    try {
+        const { id } = request.params;
+        const {
+            name,
+            description,
+            price
+        } = request.body;
+
+        const result = await updateProductByIdUsecase(id, { name, description, price });
+
+        return response.status(200).json(result);
+    } catch (error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message });
+    }
+}
+
 export {
     createProduct,
     getAllProducts,
     getProductById,
     getProductsBySellerId,
+    updateProductById,
 };

@@ -26,10 +26,20 @@ async function getProductsBySellerId(sellerId) {
     });
 }
 
+async function updateProductById(id, updatedProduct) {
+    const [numberOfAffectedRows, affectedRows] = await Product.update(updatedProduct, {
+        where: { id },
+        returning: true,
+    });
+
+    return { numberOfAffectedRows, affectedRows };
+}
+
 export {
     createProduct,
     getAllProducts,
     getProductById,
     getProductByName,
     getProductsBySellerId,
+    updateProductById,
 };
