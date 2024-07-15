@@ -60,6 +60,12 @@ async function getProductsBySellerId(request, response) {
 }
 
 async function updateProductById(request, response) {
+    const result = validationResult(request);
+
+    if(!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
     try {
         const { id } = request.params;
         const {
