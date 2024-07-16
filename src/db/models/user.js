@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
                     args: [5, 50],
                     msg: "Username must be between 5 and 50 characters long",
                 },
+                is: {
+                    args: /^[a-zA-Z0-9]+$/i,
+                    msg: "Username can only contain letters and numbers",
+                },
             },
         },
         password: {
@@ -49,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
         role: {
             type: DataTypes.ENUM("USER", "SELLER"),
             allowNull: false,
+            defaultValue: "USER",
             validate: {
                 notNull: {
                     msg: "Username is required",
@@ -57,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [["USER", "SELLER"]],
                     msg: "Role must be USER or SELLER",
                 },
-            }
+            },
         },
     }, {
         sequelize,

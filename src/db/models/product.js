@@ -45,6 +45,9 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: {
                     msg: "Product price is required",
                 },
+                isNumeric: {
+                    msg: "Product price must be a number",
+                },
                 isDecimal: {
                     msg: "Product price must be a decimal number",
                 },
@@ -63,6 +66,13 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 notNull: {
                     msg: "Owner ID is required",
+                },
+                isInt: {
+                    msg: "Owner ID must be an integer",
+                },
+                min: {
+                    args: [0],
+                    msg: "Owner ID must be a positive integer",
                 },
             },
         },
