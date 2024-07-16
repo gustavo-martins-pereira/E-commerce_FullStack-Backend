@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const postCreateProductValidator = [
     body("name")
@@ -23,6 +23,9 @@ const postCreateProductValidator = [
 ];
 
 const putUpdateProductValidator = [
+    param("id")
+        .isNumeric().withMessage("The product ID must be a number")
+        .escape(),
     body("name")
         .optional()
         .exists().withMessage("The name is required")

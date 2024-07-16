@@ -78,6 +78,7 @@ async function updateProductById(request, response) {
 
         return response.status(200).json(result);
     } catch (error) {
+        console.log(error);
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message });
     }
 }
