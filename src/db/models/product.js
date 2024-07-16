@@ -2,6 +2,7 @@
 const {
     Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
     class Product extends Model {
         /**
@@ -10,12 +11,17 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
+            // User
             Product.belongsTo(models.User, { foreignKey: "ownerId" });
+
+            // Order
+            Product.belongsToMany(models.Order, { through: models.OrderItem, foreignKey: 'productId' });
         }
     }
+
     Product.init({
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
             allowNull: false,
             validate: {
                 notNull: {
@@ -45,14 +51,8 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: {
                     msg: "Product price is required",
                 },
-                isNumeric: {
-                    msg: "Product price must be a number",
-                },
                 isDecimal: {
                     msg: "Product price must be a decimal number",
-                },
-                isFloat: {
-                    msg: "Product price must be a floating-point number",
                 },
                 min: {
                     args: [0],
@@ -88,5 +88,6 @@ module.exports = (sequelize, DataTypes) => {
             },
         ],
     });
+
     return Product;
 };

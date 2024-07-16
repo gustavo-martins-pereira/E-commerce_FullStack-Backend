@@ -2,6 +2,7 @@
 const {
     Model
 } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         /**
@@ -10,12 +11,18 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
+            // Product
             User.hasMany(models.Product, { foreignKey: "ownerId" });
+
+            //Order
+            User.hasMany(models.Order, { foreignKey: "clientId" });
+            User.hasMany(models.Order, { foreignKey: "sellerId" });
         }
     }
+
     User.init({
         username: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(50),
             allowNull: false,
             validate: {
                 notNull: {
@@ -28,25 +35,24 @@ module.exports = (sequelize, DataTypes) => {
                     args: [5, 50],
                     msg: "Username must be between 5 and 50 characters long",
                 },
-                is: {
-                    args: /^[a-zA-Z0-9]+$/i,
+                isAlphanumeric: {
                     msg: "Username can only contain letters and numbers",
                 },
             },
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(255),
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: "Username is required",
+                    msg: "Password is required",
                 },
                 notEmpty: {
                     msg: "Password cannot be empty",
                 },
                 len: {
                     args: [8, 255],
-                    msg: "Password must be between 8 and 50 characters long",
+                    msg: "Password must be between 8 and 255 characters long",
                 },
             },
         },
@@ -56,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: "USER",
             validate: {
                 notNull: {
-                    msg: "Username is required",
+                    msg: "Role is required",
                 },
                 isIn: {
                     args: [["USER", "SELLER"]],
@@ -70,5 +76,6 @@ module.exports = (sequelize, DataTypes) => {
         tableName: "users",
         underscored: true,
     });
+
     return User;
 };

@@ -2,6 +2,7 @@
 const {
     Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
     class Order extends Model {
         /**
@@ -10,10 +11,15 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Product.belongsTo(models.User, { foreignKey: "clientId" });
-            Product.belongsTo(models.User, { foreignKey: "sellerId" });
+            // User
+            Order.belongsTo(models.User, { foreignKey: "clientId", as: "client" });
+            Order.belongsTo(models.User, { foreignKey: "sellerId", as: "seller" });
+
+            // OrderItem
+            Order.hasMany(models.OrderItem, { foreignKey: "orderId" });
         }
     }
+
     Order.init({
         total: {
             type: DataTypes.FLOAT,
@@ -22,18 +28,12 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: {
                     msg: "Total is required",
                 },
-                isNumeric: {
-                    msg: "Product price must be a number",
-                },
                 isDecimal: {
-                    msg: "Product price must be a decimal number",
-                },
-                isFloat: {
-                    msg: "Product price must be a floating-point number",
+                    msg: "Total must be a decimal number",
                 },
                 min: {
                     args: [0],
-                    msg: "Total price must be greater than or equal to 0",
+                    msg: "Total must be greater than or equal to 0",
                 },
             },
         },
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 isIn: {
                     args: [["PENDING", "SHIPPED", "DELIVERED"]],
-                    msg: "Status must be PENDING, SHIPPED or DELIVERED",
+                    msg: "Status must be PENDING, SHIPPED, or DELIVERED",
                 },
             },
         },
@@ -88,6 +88,13 @@ module.exports = (sequelize, DataTypes) => {
         modelName: "Order",
         tableName: "orders",
         underscored: true,
+        indexes: [
+            {
+                unique: true,
+                fields: ['clientId', 'sellerId'],
+            },
+        ],
     });
+
     return Order;
 };
