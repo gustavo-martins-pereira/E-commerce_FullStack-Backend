@@ -33,6 +33,10 @@ async function updateProductById(id, updatedProduct) {
     });
 }
 
+async function deleteProductById(id) {
+    return await Product.destroy({ where: { id } });
+}
+
 export {
     createProduct,
     getAllProducts,
@@ -40,4 +44,5 @@ export {
     getProductByName,
     getProductsBySellerId,
     updateProductById,
+    deleteProductById,
 };

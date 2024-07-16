@@ -45,7 +45,14 @@ const putUpdateProductValidator = [
         .isFloat({ min: 0 }).withMessage("The price must be greater than 0"),
 ];
 
+const deleteProductValidator = [
+    param("id")
+        .isNumeric().withMessage("The product ID must be a number")
+        .escape(),
+];
+
 export {
     postCreateProductValidator,
     putUpdateProductValidator,
+    deleteProductValidator,
 };

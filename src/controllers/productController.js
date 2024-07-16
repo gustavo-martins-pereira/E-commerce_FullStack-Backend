@@ -5,6 +5,7 @@ import { getAllProductsUseCase } from "../services/product/getAllProductsUsecase
 import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase.js";
 import { getProductsBySellerIdUsecase } from "../services/product/getProductsBySellerIdUsecase.js";
 import { updateProductByIdUsecase } from "../services/product/updateProductByIdUsecase.js";
+import { deleteProductByIdUsecase } from "../services/product/deleteProductById.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
@@ -44,7 +45,7 @@ async function getProductById(request, response) {
         const product = await getProductByIdUsecase(request.params.id);
 
         return response.status(200).json(product);
-    } catch (error) {
+    } catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }
 }
@@ -54,7 +55,7 @@ async function getProductsBySellerId(request, response) {
         const products = await getProductsBySellerIdUsecase(request.params.sellerId);
 
         return response.status(200).json(products);
-    } catch (error) {
+    } catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }
 }
@@ -77,8 +78,25 @@ async function updateProductById(request, response) {
         const result = await updateProductByIdUsecase(id, { name, description, price });
 
         return response.status(200).json(result);
-    } catch (error) {
-        console.log(error);
+    } catch(error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message });
+    }
+}
+
+async function deleteProductById(request, response) {
+    const result = validationResult(request);
+
+    if(!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
+    try {
+        const { id } = request.params;
+
+        await deleteProductByIdUsecase(id);
+
+        return response.status(204).send();
+    } catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message });
     }
 }
@@ -89,4 +107,5 @@ export {
     getProductById,
     getProductsBySellerId,
     updateProductById,
+    deleteProductById,
 };
