@@ -1,8 +1,15 @@
+import { validationResult } from "express-validator";
 import { createOrderUseCase } from "../services/order/createOrderUsecase.js";
 import { createOrderItemUsecase } from "../services/orderItem/createOrderItemUsecase.js";
 import CustomError from "../utils/errors/customError.js";
 
 async function createOrder(request, response) {
+    const result = validationResult(request);
+
+    if(!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
     try {
         const {
             total,
@@ -24,7 +31,7 @@ async function createOrder(request, response) {
             }))
         );
 
-        return response.status(201).json({ order, createdOrderItems });
+        return response.status(201).json({ order, orderItems: createdOrderItems });
     } catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }
