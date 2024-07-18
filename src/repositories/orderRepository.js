@@ -16,7 +16,15 @@ async function getOrdersByUserId(userId) {
     }});
 }
 
+async function updateOrderStatusById(id, status) {
+    return await Order.update({ status }, {
+        where: { id },
+        returning: true,
+    });
+}
+
 export {
     createOrder,
     getOrdersByUserId,
+    updateOrderStatusById,
 };

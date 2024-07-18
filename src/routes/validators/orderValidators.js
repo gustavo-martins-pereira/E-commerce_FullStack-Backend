@@ -46,7 +46,19 @@ const getOrdersByUserIdValidator = [
         .escape(),
 ];
 
+const patchUpdateOrderStatusByIdValidator = [
+    param("id")
+        .isNumeric().withMessage("The id must be a number")
+        .escape(),
+    body('status')
+        .isString().withMessage("The status must be a string")
+        .trim().notEmpty().withMessage("The status cannot be empty")
+        .toUpperCase()
+        .isIn(["PENDING", "SHIPPED", "DELIVERED"]).withMessage("The status must be PENDING, SHIPPED, or DELIVERED"),
+];
+
 export {
     postCreateOrderValidator,
     getOrdersByUserIdValidator,
+    patchUpdateOrderStatusByIdValidator,
 };
