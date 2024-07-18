@@ -2,6 +2,8 @@ import { validationResult } from "express-validator";
 import { createOrderUseCase } from "../services/order/createOrderUsecase.js";
 import { createOrderItemUsecase } from "../services/orderItem/createOrderItemUsecase.js";
 import CustomError from "../utils/errors/customError.js";
+import { getOrdersByUserIdUsecase } from "../services/order/getOrdersByUserIdUsecase.js";
+import { getOrderItemsByOrderIdUsecase } from "../services/orderItem/getOrderItemsByOrderIdUsecase.js";
 
 async function createOrder(request, response) {
     const result = validationResult(request);
@@ -37,6 +39,32 @@ async function createOrder(request, response) {
     }
 }
 
+async function getOrdersByUserId(request, response) {
+    const result = validationResult(request);
+
+    if(!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
+    try {
+        const { userId } = request.params;
+
+        const orders = await getOrdersByUserIdUsecase(userId);
+
+        const ordersWithItems = await Promise.all(
+            orders.map(async order => {
+                const orderItems = await getOrderItemsByOrderIdUsecase(order.id);
+                return { ...order.toJSON(), orderItems };
+            })
+        );
+
+        return response.status(200).json(ordersWithItems);
+    } catch(error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
 export {
     createOrder,
+    getOrdersByUserId,
 };

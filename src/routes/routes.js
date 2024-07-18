@@ -4,8 +4,8 @@ import { getUserByUsername, loginUser, registerUser } from "../controllers/userC
 import { getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
 import { createProduct, deleteProductById, getAllProducts, getProductById, getProductsBySellerId, updateProductById } from "../controllers/productController.js";
 import { deleteProductValidator, postCreateProductValidator, putUpdateProductValidator } from "./validators/productValidators.js";
-import { createOrder } from "../controllers/orderController.js";
-import { postCreateOrderValidator } from "./validators/orderValidators.js";
+import { createOrder, getOrdersByUserId } from "../controllers/orderController.js";
+import { getOrdersByUserIdValidator, postCreateOrderValidator } from "./validators/orderValidators.js";
 
 const routes = express.Router();
 
@@ -26,5 +26,6 @@ routes.delete("/products/:id", deleteProductValidator, deleteProductById);
 
 // ORDER
 routes.post("/orders", postCreateOrderValidator, createOrder);
+routes.get("/orders/:userId", getOrdersByUserIdValidator, getOrdersByUserId);
 
 export default routes;
