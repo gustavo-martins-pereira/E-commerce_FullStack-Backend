@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "2da57b75-237b-42cc-a75f-3f5a86fe7ab4",
+		"name": "E-Commerce - FullStack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30056941"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\",\r\n    \"role\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/register",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/login",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User by Username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{USER_ROUTE}}/username",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{USER_ROUTE}}",
+								"username"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Product\",\r\n    \"description\": \"Description\",\r\n    \"price\": 1,\r\n    \"ownerId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{PRODUCT_ROUTE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{PRODUCT_ROUTE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{PRODUCT_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products by Seller Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}/seller/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{PRODUCT_ROUTE}}",
+								"seller",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product by Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Product Edited\",\r\n    \"description\": \"Description edited\",\r\n    \"price\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{PRODUCT_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{PRODUCT_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sellerId\": 1,\r\n    \"clientId\": 2,\r\n    \"total\": 100.00,\r\n    \"status\": \"PENDING\",\r\n    \"orderItems\": [\r\n        {\r\n            \"quantity\": 2,\r\n            \"price\": 25.00,\r\n            \"subtotal\": 50.00,\r\n            \"productId\": 1\r\n        },\r\n        {\r\n            \"quantity\": 1,\r\n            \"price\": 50.00,\r\n            \"subtotal\": 50.00,\r\n            \"productId\": 2\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{ORDER_ROUTE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders by User Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{ORDER_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status by Id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"PENDING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{ORDER_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "DOMAIN",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "USER_ROUTE",
+			"value": "users",
+			"type": "string"
+		},
+		{
+			"key": "PRODUCT_ROUTE",
+			"value": "products",
+			"type": "string"
+		},
+		{
+			"key": "ORDER_ROUTE",
+			"value": "orders",
+			"type": "string"
+		}
+	]
+}
