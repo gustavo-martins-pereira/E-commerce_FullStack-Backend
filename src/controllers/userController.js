@@ -3,6 +3,7 @@ import { registerUserUseCase } from "../services/user/registerUserUsecase.js";
 import CustomError from "../utils/errors/customError.js";
 import { loginUserUseCase } from "../services/user/loginUserUsecase.js";
 import { getUserByUsernameUsecase } from "../services/user/getUserByUsernameUsecase.js";
+import { refreshTokenUseCase } from "../services/user/refreshTokenUsecase.js";
 
 async function registerUser(request, response) {
     const result = validationResult(request);
@@ -38,10 +39,25 @@ async function loginUser(request, response) {
             username,
             password
         } = request.body;
-        const tokens = await loginUserUseCase({ username, password });
+        const { accessToken, refreshToken } = await loginUserUseCase({ username, password });
 
-        response.cookie("token", tokens.refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 });
-        return response.status(200).json({ token: tokens.accessToken });
+        response.cookie("token", refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 });
+        return response.status(200).json({ token: accessToken });
+    }catch(error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
+async function refreshToken(request, response) {
+    try {
+        const cookies = request.cookies;
+
+        if(!cookies?.token) return response.status(401).json({ error: "Unauthorized" });
+        const refreshToken = cookies.token;
+
+        const accessToken = await refreshTokenUseCase(refreshToken);
+        
+        return response.status(200).json({ accessToken });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }
@@ -66,5 +82,6 @@ async function getUserByUsername(request, response) {
 export {
     registerUser,
     loginUser,
+    refreshToken,
     getUserByUsername,
 };
