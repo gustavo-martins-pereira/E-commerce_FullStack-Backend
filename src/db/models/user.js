@@ -70,6 +70,15 @@ module.exports = (sequelize, DataTypes) => {
                 },
             },
         },
+        refreshToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: {
+                notEmpty: {
+                    msg: "Refresh Token cannot be empty",
+                },
+            },
+        },
     }, {
         sequelize,
         modelName: "User",

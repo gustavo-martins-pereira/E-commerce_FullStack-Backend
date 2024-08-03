@@ -6,12 +6,14 @@ import { createProduct, deleteProductById, getAllProducts, getProductById, getPr
 import { deleteProductValidator, postCreateProductValidator, putUpdateProductValidator } from "./validators/productValidators.js";
 import { createOrder, getOrdersByUserId, updateOrderStatusById } from "../controllers/orderController.js";
 import { getOrdersByUserIdValidator, patchUpdateOrderStatusByIdValidator, postCreateOrderValidator } from "./validators/orderValidators.js";
+import verifyJwtToken from "../middlewares/verifyJwtToken.js";
 
 const routes = express.Router();
 
 // USER
 routes.post("/register", postRegisterUserValidator, registerUser);
 routes.post("/login", postLoginUserValidator, loginUser);
+routes.use(verifyJwtToken); // Verify token in all routes after this line
 routes.get("/users/:username", getUserByUsernameValidator, getUserByUsername);
 
 

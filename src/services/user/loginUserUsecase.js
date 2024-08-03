@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { getUserByUsername } from "../../repositories/userRepository.js";
+import { getUserByUsername, updateUserById } from "../../repositories/userRepository.js";
 import CustomError from "../../utils/errors/customError.js";
 
 async function loginUserUseCase({ username, password }) {
@@ -11,9 +11,22 @@ async function loginUserUseCase({ username, password }) {
         throw new CustomError(400, "Invalid credentials");
     }
 
-    const token = jwt.sign({ username: user.username, password: user.password}, process.env.JWT_KEY, {expiresIn: 3600});
 
-    return token;
+    const accessToken = jwt.sign(
+        { username: user.username },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "15s" } // TODO: Change this to 15m
+    );
+    const refreshToken = jwt.sign(
+        { username: user.username },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: "1d" }
+    );
+
+    const updatedUser = { ...user, refreshToken };
+    await updateUserById(user.id, updatedUser);
+
+    return { accessToken, refreshToken };
 }
 
 export {

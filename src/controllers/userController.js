@@ -38,9 +38,10 @@ async function loginUser(request, response) {
             username,
             password
         } = request.body;
-        const token = await loginUserUseCase({ username, password });
+        const tokens = await loginUserUseCase({ username, password });
 
-        return response.status(200).json({ token });
+        response.cookie("token", tokens.refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 });
+        return response.status(200).json({ token: tokens.accessToken });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }
