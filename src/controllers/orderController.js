@@ -4,8 +4,8 @@ import { createOrderItemUsecase } from "../services/orderItem/createOrderItemUse
 import CustomError from "../utils/errors/customError.js";
 import { getOrdersByUserIdUsecase } from "../services/order/getOrdersByUserIdUsecase.js";
 import { getOrderItemsByOrderIdUsecase } from "../services/orderItem/getOrderItemsByOrderIdUsecase.js";
-import { request } from "express";
 import { updateOrderStatusByIdUsecase } from "../services/order/updateOrderStatusByIdUsecase.js";
+import extractJwtPayloadProperty from "../utils/extractJwtPayloadProperty.js";
 
 async function createOrder(request, response) {
     const result = validationResult(request);
@@ -50,8 +50,9 @@ async function getOrdersByUserId(request, response) {
 
     try {
         const { userId } = request.params;
+        const username = extractJwtPayloadProperty(request, "username");
 
-        const orders = await getOrdersByUserIdUsecase(userId); // FIXME: Only allow the requisition if the user response is the same user of the userId sent by the userId parameter
+        const orders = await getOrdersByUserIdUsecase(userId, username);
 
         const ordersWithItems = await Promise.all(
             orders.map(async order => {

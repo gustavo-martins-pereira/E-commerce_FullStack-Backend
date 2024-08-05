@@ -1,10 +1,10 @@
 import { getOrdersByUserId } from "../../repositories/orderRepository.js";
-import { getUserById } from "../../repositories/userRepository.js";
+import { getUserByUsername } from "../../repositories/userRepository.js";
 import CustomError from "../../utils/errors/customError.js";
 
-async function getOrdersByUserIdUsecase(userId) {
-    const user = await getUserById(userId);
-    if(!user) throw new CustomError(404, "User not found");
+async function getOrdersByUserIdUsecase(userId, username) {
+    const user = await getUserByUsername(username);
+    if(user?.id !== Number(userId)) throw new CustomError(403, "You don't have permission to access the orders of other users");
 
     return await getOrdersByUserId(userId);
 }
