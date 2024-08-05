@@ -13,7 +13,10 @@ async function loginUserUseCase({ username, password }) {
 
 
     const accessToken = jwt.sign(
-        { username: user.username },
+        {
+            username: user.username,
+            role: user.role,
+        },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1m" }
     );

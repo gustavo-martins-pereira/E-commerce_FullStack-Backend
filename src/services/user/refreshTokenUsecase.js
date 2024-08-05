@@ -14,7 +14,10 @@ async function refreshTokenUseCase(refreshToken) {
             if(err || user.username !== decoded.username) throw new CustomError(403, "Invalid credentials");
 
             const accessToken = jwt.sign(
-                { username: decoded.username },
+                {
+                    username: decoded.username,
+                    role: user.role,
+                },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: "1m" }
             );

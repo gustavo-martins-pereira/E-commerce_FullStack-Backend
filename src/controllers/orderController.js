@@ -51,7 +51,7 @@ async function getOrdersByUserId(request, response) {
     try {
         const { userId } = request.params;
 
-        const orders = await getOrdersByUserIdUsecase(userId);
+        const orders = await getOrdersByUserIdUsecase(userId); // FIXME: Only allow the requisition if the user response is the same user of the userId sent by the userId parameter
 
         const ordersWithItems = await Promise.all(
             orders.map(async order => {
