@@ -1,0 +1,7 @@
+const PRODUCT_STATUS = {
+    PENDING: "PENDING",
+    SHIPPED: "SHIPPED",
+    DELIVERED: "DELIVERED",
+};
+
+export default PRODUCT_STATUS;

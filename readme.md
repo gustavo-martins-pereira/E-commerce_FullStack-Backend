@@ -82,10 +82,22 @@ npm install
 npx sequelize-cli db:migrate
 ```
 
-6. Em seguida, execute o projeto com:
+6. Execute o comando para executar as *seeds* do projeto, que vão conter alguns dados de exemplo para popular o banco de dados:
+```bash
+npx sequelize-cli db:seed:all
+```
+> &#x26A0; Existe a possibilidade de erro de dado duplicado na hora de executar o comando, essa é uma ação NORMAL do banco de dados para evitar inconsistências na *DB*, caso aconteça, tente executar o comando novamente até que todas as seeds sejam executadas com sucesso
+
+7. Em seguida, execute o projeto com:
 ```bash
 npm run start
 ```
+
+#### &#x26A0; JWT &#x26A0;
+Todas as rotas são protegidas por ***JWT*** (exceto a de registro, login e *refreshToken*), então antes de executar qualquer requisição, crie um novo usuário na rota de registro, e faça o login na rota de login para obter o ***Access Token***. O ***Access Token*** tem um prazo de validade de apenas **1 minuto**, e para obter um novo token de acesso, basta executar a rota de *refreshToken*.
+> A duração é pequena para impedir danos relativos ao vazamento do token de acesso as rotas, para mais informações, acesse o conceito de [Access token e Refresh token](https://www.google.com/search?q=access%20token%20and%20refresh%20token%20jwt)
+
+Lembrando que dependendo do tipo de usuário que você criar, as rotas podem ter acesso restrito, permitindo que somente usuário com certos tipos de *role* possam acessar aquele recurso.
 
 ## &#x1F4C1; Estrutura do Projeto
 
