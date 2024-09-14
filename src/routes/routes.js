@@ -11,7 +11,7 @@ import { getOrdersByUserIdValidator, patchUpdateOrderStatusByIdValidator, postCr
 import verifyJwtToken from "../middlewares/verifyJwtToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 
-import USER_ROLES from "../utils/enums/roles.js";
+import USER_ROLES from "../utils/enums/userRoles.js";
 
 const routes = express.Router();
 
