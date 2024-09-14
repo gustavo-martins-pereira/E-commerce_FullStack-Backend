@@ -77,16 +77,12 @@ npm install
     ⚠ Lembre-se que o nome do banco será usado para configurar a conexão com o banco de dados no arquivo .env
 </details>
 
-5. Para executar as migrations do projeto, em um terminal na raiz do projeto, digite o comando:
+5. Para executar as *migrations* e *seeds* do projeto, em um terminal na raiz do projeto, digite o comando:
 ```bash
-npx sequelize-cli db:migrate
+npm run setup-db
 ```
 
-6. Execute o comando para executar as *seeds* do projeto, que vão conter alguns dados de exemplo para popular o banco de dados:
-```bash
-npx sequelize-cli db:seed:all
-```
-> &#x26A0; Existe a possibilidade de erro de dado duplicado na hora de executar o comando, essa é uma ação NORMAL do banco de dados para evitar inconsistências na *DB*, caso aconteça, tente executar o comando novamente até que todas as seeds sejam executadas com sucesso
+> &#x26A0; Existe a possibilidade de erro de dado duplicado quando o comando de *seed* estiver sendo executado, essa é uma ação NORMAL do banco de dados para evitar inconsistências na *DB*, caso aconteça, tente executar o comando `npm run seed` até que todas as seeds sejam executadas com sucesso
 
 7. Em seguida, execute o projeto com:
 ```bash
