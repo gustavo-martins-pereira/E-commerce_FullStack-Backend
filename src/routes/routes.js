@@ -15,28 +15,34 @@ import USER_ROLES from "../utils/enums/userRoles.js";
 
 const routes = express.Router();
 
+const publicRoutes = express.Router();
+const protectedRoutes = express.Router();
+
 // USER
-routes.post("/register", postRegisterUserValidator, registerUser);
-routes.post("/login", postLoginUserValidator, loginUser);
-routes.get("/login/refresh", refreshToken);
+publicRoutes.post("/register", postRegisterUserValidator, registerUser);
+publicRoutes.post("/login", postLoginUserValidator, loginUser);
+publicRoutes.get("/login/refresh", refreshToken);
 
-// routes.use(verifyJwtToken); // Verify token in all routes after this line
+protectedRoutes.use(verifyJwtToken);
 
-routes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getUserByUsernameValidator, getUserByUsername);
+protectedRoutes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getUserByUsernameValidator, getUserByUsername);
 
 
 // PRODUCT
-routes.post("/products", verifyRole(USER_ROLES.SELLER), postCreateProductValidator, createProduct);
-routes.get("/products", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getAllProducts);
-routes.get("/products/:id", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductById);
-routes.get("/products/seller/:sellerId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductsBySellerId);
-routes.put("/products/:id", verifyRole(USER_ROLES.SELLER), putUpdateProductValidator, updateProductById);
-routes.delete("/products/:id", verifyRole(USER_ROLES.SELLER), deleteProductValidator, deleteProductById);
+protectedRoutes.post("/products", verifyRole(USER_ROLES.SELLER), postCreateProductValidator, createProduct);
+protectedRoutes.get("/products", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getAllProducts);
+protectedRoutes.get("/products/:id", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductById);
+protectedRoutes.get("/products/seller/:sellerId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductsBySellerId);
+protectedRoutes.put("/products/:id", verifyRole(USER_ROLES.SELLER), putUpdateProductValidator, updateProductById);
+protectedRoutes.delete("/products/:id", verifyRole(USER_ROLES.SELLER), deleteProductValidator, deleteProductById);
 
 
 // ORDER
-routes.post("/orders", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), postCreateOrderValidator, createOrder);
-routes.get("/orders/:userId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getOrdersByUserIdValidator, getOrdersByUserId);
-routes.patch("/orders/:id", verifyRole(USER_ROLES.SELLER), patchUpdateOrderStatusByIdValidator, updateOrderStatusById);
+protectedRoutes.post("/orders", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), postCreateOrderValidator, createOrder);
+protectedRoutes.get("/orders/:userId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getOrdersByUserIdValidator, getOrdersByUserId);
+protectedRoutes.patch("/orders/:id", verifyRole(USER_ROLES.SELLER), patchUpdateOrderStatusByIdValidator, updateOrderStatusById);
+
+routes.use(publicRoutes);
+routes.use(protectedRoutes);
 
 export default routes;
