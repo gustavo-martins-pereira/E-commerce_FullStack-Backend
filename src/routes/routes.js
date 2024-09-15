@@ -20,7 +20,7 @@ routes.post("/register", postRegisterUserValidator, registerUser);
 routes.post("/login", postLoginUserValidator, loginUser);
 routes.get("/login/refresh", refreshToken);
 
-routes.use(verifyJwtToken); // Verify token in all routes after this line
+// routes.use(verifyJwtToken); // Verify token in all routes after this line
 
 routes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getUserByUsernameValidator, getUserByUsername);
 
