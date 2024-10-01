@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
 
             // Order
             Product.belongsToMany(models.Order, { through: models.OrderItem, foreignKey: "productId" });
+
+            // Image
+            Product.belongsTo(models.Image, { foreignKey: "imageId" });
         }
     }
 
@@ -76,6 +79,27 @@ module.exports = (sequelize, DataTypes) => {
                 },
             },
         },
+        imageId: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: "images",
+                key: "id",
+            },
+            validate: {
+                notNull: {
+                    msg: "Image ID is required",
+                },
+                isInt: {
+                    msg: "Image ID must be an integer",
+                },
+                min: {
+                    args: [0],
+                    msg: "Image ID must be a positive integer",
+                },
+            },
+            onUpdate: "CASCADE",
+            onDelete: "SET NULL",
+        },
     }, {
         sequelize,
         modelName: "Product",
@@ -84,7 +108,7 @@ module.exports = (sequelize, DataTypes) => {
         indexes: [
             {
                 unique: true,
-                fields: ['name', 'ownerId'],
+                fields: ["name", "ownerId"],
             },
         ],
     });
