@@ -19,7 +19,7 @@ const postCreateProductValidator = [
     body("ownerId")
         .exists().withMessage("The ownerId is required")
         .isNumeric().withMessage("The ownerId must be a number")
-        .isInt({ gt: 0 }).withMessage("The ownerId must be greater than 0")
+        .isInt({ gt: 0 }).withMessage("The ownerId must be greater than 0"),
 ];
 
 const putUpdateProductValidator = [

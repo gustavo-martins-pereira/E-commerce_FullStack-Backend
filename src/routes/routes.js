@@ -10,6 +10,7 @@ import { getOrdersByUserIdValidator, patchUpdateOrderStatusByIdValidator, postCr
 // Middlewares
 import verifyJwtToken from "../middlewares/verifyJwtToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
+import uploadSingleFile from "../middlewares/uploadSingleFile.js";
 
 import USER_ROLES from "../utils/enums/userRoles.js";
 
@@ -29,7 +30,7 @@ protectedRoutes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.S
 
 
 // PRODUCT
-protectedRoutes.post("/products", verifyRole(USER_ROLES.SELLER), postCreateProductValidator, createProduct);
+protectedRoutes.post("/products", verifyRole(USER_ROLES.SELLER), uploadSingleFile("image"), postCreateProductValidator, createProduct);
 protectedRoutes.get("/products", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getAllProducts);
 protectedRoutes.get("/products/:id", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductById);
 protectedRoutes.get("/products/seller/:sellerId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductsBySellerId);

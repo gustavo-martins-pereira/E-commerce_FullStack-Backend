@@ -1,11 +1,13 @@
 import { validationResult } from "express-validator";
-import { createProductUseCase } from "../services/product/createProductUsecase.js";
+
 import CustomError from "../utils/errors/customError.js";
+import { createProductUseCase } from "../services/product/createProductUsecase.js";
 import { getAllProductsUseCase } from "../services/product/getAllProductsUsecase.js";
 import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase.js";
 import { getProductsBySellerIdUsecase } from "../services/product/getProductsBySellerIdUsecase.js";
 import { updateProductByIdUsecase } from "../services/product/updateProductByIdUsecase.js";
 import { deleteProductByIdUsecase } from "../services/product/deleteProductById.js";
+import { createImageUsecase } from "../services/image/createImageUsecase.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
@@ -15,14 +17,20 @@ async function createProduct(request, response) {
     }
 
     try {
+        const { originalname, buffer } = request.file;
+        const image = await createImageUsecase({
+            name: originalname,
+            data: buffer,
+        });
+
         const {
             name,
             description,
             price,
-            ownerId
+            ownerId,
         } = request.body;
 
-        const product = await createProductUseCase({ name, description, price, ownerId });
+        const product = await createProductUseCase({ name, description, price, ownerId, imageId: image.id });
 
         return response.status(201).json(product);
     } catch(error) {

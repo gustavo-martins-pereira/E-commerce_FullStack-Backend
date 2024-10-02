@@ -2,8 +2,8 @@ import db from "../db/models/index.js";
 
 const { Product } = db;
 
-async function createProduct({ name, description, price, ownerId }) {
-    return await Product.create({ name, description, price, ownerId });
+async function createProduct({ name, description, price, ownerId, imageId }) {
+    return await Product.create({ name, description, price, ownerId, imageId });
 }
 
 async function getAllProducts() {
