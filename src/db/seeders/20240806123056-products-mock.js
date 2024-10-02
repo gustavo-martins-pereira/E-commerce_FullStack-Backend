@@ -30,7 +30,7 @@ module.exports = {
             const imageData = await streamToBuffer(response.body);
 
             images.push({
-                name: `image_${i}`,
+                name: `${(new Date()).getTime()}_image_${i}`,
                 data: imageData,
             });
         }
