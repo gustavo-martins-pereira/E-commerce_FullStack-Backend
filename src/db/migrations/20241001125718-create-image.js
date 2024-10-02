@@ -5,10 +5,10 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('images', {
             id: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER,
             },
             name: {
                 type: Sequelize.STRING(255),
@@ -16,17 +16,17 @@ module.exports = {
                 unique: true,
             },
             data: {
-                type: Sequelize.BLOB("long"),
+                type: Sequelize.BLOB,
                 allowNull: false,
             },
-            createdAt: {
-                allowNull: false,
+            created_at: {
                 type: Sequelize.DATE,
+                allowNull: false,
                 defaultValue: Sequelize.fn("now"),
             },
-            updatedAt: {
-                allowNull: false,
+            updated_at: {
                 type: Sequelize.DATE,
+                allowNull: false,
                 defaultValue: Sequelize.fn("now"),
             }
         });
