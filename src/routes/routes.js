@@ -30,10 +30,11 @@ protectedRoutes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.S
 
 
 // PRODUCT
+publicRoutes.get("/products", getAllProducts);
+publicRoutes.get("/products/:id", getProductById);
+publicRoutes.get("/products/seller/:sellerId", getProductsBySellerId);
+
 protectedRoutes.post("/products", verifyRole(USER_ROLES.SELLER), uploadSingleFile("image"), postCreateProductValidator, createProduct);
-protectedRoutes.get("/products", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getAllProducts);
-protectedRoutes.get("/products/:id", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductById);
-protectedRoutes.get("/products/seller/:sellerId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getProductsBySellerId);
 protectedRoutes.put("/products/:id", verifyRole(USER_ROLES.SELLER), putUpdateProductValidator, updateProductById);
 protectedRoutes.delete("/products/:id", verifyRole(USER_ROLES.SELLER), deleteProductValidator, deleteProductById);
 
