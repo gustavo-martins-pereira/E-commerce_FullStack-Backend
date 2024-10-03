@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "Image data is required",
                 },
             },
+            get() {
+                const rawData = this.getDataValue("data");
+
+                return rawData ? Array.from(rawData) : null;
+            },
         }
     }, {
         sequelize,

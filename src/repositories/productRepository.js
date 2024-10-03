@@ -1,17 +1,17 @@
 import db from "../db/models/index.js";
 
-const { Product } = db;
+const { Product, Image } = db;
 
 async function createProduct({ name, description, price, ownerId, imageId }) {
     return await Product.create({ name, description, price, ownerId, imageId });
 }
 
 async function getAllProducts() {
-    return await Product.findAll();
+    return await Product.findAll({ include: Image });
 }
 
 async function getProductById(id) {
-    return await Product.findByPk(id);
+    return await Product.findByPk(id, { include: Image });
 }
 
 async function getProductByName(name) {
@@ -22,7 +22,8 @@ async function getProductsBySellerId(sellerId) {
     return await Product.findAll({
         where: {
             ownerId: sellerId
-        }
+        },
+        include: Image,
     });
 }
 
