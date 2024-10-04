@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Image.hasOne(models.Product, { foreignKey: "imageId" });
+            Image.hasOne(models.Product, { foreignKey: "imageId", as: "image" });
         }
     }
     Image.init({

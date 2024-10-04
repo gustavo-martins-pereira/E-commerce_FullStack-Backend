@@ -7,11 +7,27 @@ async function createProduct({ name, description, price, ownerId, imageId }) {
 }
 
 async function getAllProducts() {
-    return await Product.findAll({ include: Image });
+    return await Product.findAll({
+        include: {
+            model: Image,
+            as: "image",
+        },
+        attributes: {
+            exclude: ['imageId'],
+        },
+    });
 }
 
 async function getProductById(id) {
-    return await Product.findByPk(id, { include: Image });
+    return await Product.findByPk(id, {
+        include: {
+            model: Image,
+            as: "image"
+        },
+        attributes: {
+            exclude: ['imageId'],
+        },
+    });
 }
 
 async function getProductByName(name) {
@@ -23,7 +39,13 @@ async function getProductsBySellerId(sellerId) {
         where: {
             ownerId: sellerId
         },
-        include: Image,
+        include: {
+            model: Image,
+            as: "image"
+        },
+        attributes: {
+            exclude: ['imageId'],
+        },
     });
 }
 

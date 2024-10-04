@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             Product.belongsToMany(models.Order, { through: models.OrderItem, foreignKey: "productId" });
 
             // Image
-            Product.belongsTo(models.Image, { foreignKey: "imageId" });
+            Product.belongsTo(models.Image, { foreignKey: "imageId", as: "image" });
         }
     }
 
