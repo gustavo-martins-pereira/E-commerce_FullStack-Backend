@@ -22,7 +22,7 @@ const protectedRoutes = express.Router();
 // USER
 publicRoutes.post("/register", postRegisterUserValidator, registerUser);
 publicRoutes.post("/login", postLoginUserValidator, loginUser);
-publicRoutes.get("/login/refresh", refreshToken);
+publicRoutes.post("/login/refresh", refreshToken);
 
 protectedRoutes.use(verifyJwtToken);
 

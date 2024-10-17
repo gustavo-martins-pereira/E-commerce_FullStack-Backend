@@ -57,7 +57,7 @@ async function refreshToken(request, response) {
 
         const accessToken = await refreshTokenUseCase(refreshToken);
         
-        return response.status(200).json({ accessToken });
+        return response.status(200).json({ token: accessToken });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }
