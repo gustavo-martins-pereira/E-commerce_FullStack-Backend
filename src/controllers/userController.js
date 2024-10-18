@@ -55,6 +55,7 @@ async function loginUser(request, response) {
 async function refreshToken(request, response) {
     try {
         const cookies = request.cookies;
+        console.log(cookies);
 
         if(!cookies?.token) return response.status(401).json({ error: "No token provided" });
         const refreshToken = cookies.token;
