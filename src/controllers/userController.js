@@ -41,7 +41,11 @@ async function loginUser(request, response) {
         } = request.body;
         const { accessToken, refreshToken } = await loginUserUseCase({ username, password });
 
-        response.cookie("token", refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 });
+        response.cookie("token", refreshToken, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60,
+            sameSite: "None",
+        });
         return response.status(200).json({ token: accessToken });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
