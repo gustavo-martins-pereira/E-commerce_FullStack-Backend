@@ -42,7 +42,6 @@ async function loginUser(request, response) {
         const { accessToken, refreshToken } = await loginUserUseCase({ username, password });
 
         response.cookie("token", refreshToken, {
-            httpOnly: true,
             maxAge: 1000 * 60 * 60,
             sameSite: "None",
         });
