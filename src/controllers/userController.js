@@ -52,7 +52,7 @@ async function refreshToken(request, response) {
     try {
         const cookies = request.cookies;
 
-        if(!cookies?.token) return response.status(401).json({ error: "Unauthorized" });
+        if(!cookies?.token) return response.status(401).json({ error: "No token provided" });
         const refreshToken = cookies.token;
 
         const accessToken = await refreshTokenUseCase(refreshToken);
