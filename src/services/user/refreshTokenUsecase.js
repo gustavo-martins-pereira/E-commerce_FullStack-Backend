@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 import { getUserByRefreshToken } from "../../repositories/userRepository.js";
 import CustomError from "../../utils/errors/customError.js";
+import { JWT_CONFIGS } from "../../utils/configs/jwt.js";
 
 async function refreshTokenUseCase(refreshToken) {
     const user = await getUserByRefreshToken(refreshToken);
@@ -19,7 +20,7 @@ async function refreshTokenUseCase(refreshToken) {
                     role: user.role,
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "1m" }
+                { expiresIn: JWT_CONFIGS.ACCESS_TOKEN_EXPIRE_TIMEOUT }
             );
 
             return accessToken;
