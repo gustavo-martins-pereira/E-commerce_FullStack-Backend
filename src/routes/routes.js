@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getUserByUsername, loginUser, refreshToken, registerUser } from "../controllers/userController.js";
+import { getUserByUsername, loginUser, logout, refreshToken, registerUser } from "../controllers/userController.js";
 import { getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
 import { createProduct, deleteProductById, getAllProducts, getProductById, getProductsBySellerId, updateProductById } from "../controllers/productController.js";
 import { deleteProductValidator, postCreateProductValidator, putUpdateProductValidator } from "./validators/productValidators.js";
@@ -8,7 +8,8 @@ import { createOrder, getOrdersByUserId, updateOrderStatusById } from "../contro
 import { getOrdersByUserIdValidator, patchUpdateOrderStatusByIdValidator, postCreateOrderValidator } from "./validators/orderValidators.js";
 
 // Middlewares
-import verifyJwtToken from "../middlewares/verifyJwtToken.js";
+import verifyJwtAccessToken from "../middlewares/verifyJwtAccessToken.js";
+import verifyJwtRefreshToken from "../middlewares/verifyJwtRefreshToken.js";
 import verifyRole from "../middlewares/verifyRole.js";
 import uploadSingleFile from "../middlewares/uploadSingleFile.js";
 
@@ -23,8 +24,9 @@ const protectedRoutes = express.Router();
 publicRoutes.post("/register", postRegisterUserValidator, registerUser);
 publicRoutes.post("/login", postLoginUserValidator, loginUser);
 publicRoutes.post("/login/refresh", refreshToken);
+publicRoutes.post("/users/logout", verifyJwtRefreshToken, verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), logout);
 
-protectedRoutes.use(verifyJwtToken);
+protectedRoutes.use(verifyJwtAccessToken);
 
 protectedRoutes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getUserByUsernameValidator, getUserByUsername);
 

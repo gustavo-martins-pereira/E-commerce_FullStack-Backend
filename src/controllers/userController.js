@@ -1,10 +1,12 @@
 import { matchedData, validationResult } from "express-validator";
+
 import { registerUserUseCase } from "../services/user/registerUserUsecase.js";
-import CustomError from "../utils/errors/customError.js";
 import { loginUserUseCase } from "../services/user/loginUserUsecase.js";
 import { getUserByUsernameUsecase } from "../services/user/getUserByUsernameUsecase.js";
 import { refreshTokenUseCase } from "../services/user/refreshTokenUsecase.js";
-import { getRefreshTokenMaxAge } from "../utils/configs/jwt.js";
+import { logoutUseCase } from "../services/user/logoutUsecase.js";
+import CustomError from "../utils/errors/customError.js";
+import { getRefreshTokenMaxAge } from "../utils/jwt.js";
 
 async function registerUser(request, response) {
     const result = validationResult(request);
@@ -42,7 +44,7 @@ async function loginUser(request, response) {
         } = request.body;
         const { accessToken, refreshToken } = await loginUserUseCase({ username, password });
 
-        response.cookie("refreshToken", refreshToken, { maxAge: getRefreshTokenMaxAge() });
+        response.cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: getRefreshTokenMaxAge() });
         return response.status(200).json({ accessToken });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
@@ -52,7 +54,7 @@ async function loginUser(request, response) {
 async function refreshToken(request, response) {
     try {
         const refreshToken = request.cookies.refreshToken;
-        if(!refreshToken) return response.status(401).json({ error: "Unauthorized" });
+        if(!refreshToken) return response.status(401).json({ error: "No token provided" });
 
         const accessToken = await refreshTokenUseCase(refreshToken);
         
@@ -78,9 +80,25 @@ async function getUserByUsername(request, response) {
     }
 }
 
+async function logout(request, response) {
+    try {
+        const refreshToken = request.cookies.refreshToken;
+        if(!refreshToken) return response.status(401).json({ error: "No token provided" });
+        
+        await logoutUseCase(refreshToken);
+
+        response.clearCookie("refreshToken");
+
+        return response.status(200).json({ message: "Logged out successfully" });
+    } catch(error) {
+        return response.status(error instanceof CustomError? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
 export {
     registerUser,
     loginUser,
     refreshToken,
     getUserByUsername,
+    logout,
 };

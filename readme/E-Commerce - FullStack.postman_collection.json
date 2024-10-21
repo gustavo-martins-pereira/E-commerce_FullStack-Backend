@@ -12,6 +12,9 @@
 				{
 					"name": "Register",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -38,6 +41,9 @@
 				{
 					"name": "Login",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -56,6 +62,42 @@
 							],
 							"path": [
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/login/refresh",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"login",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{USER_ROUTE}}/logout",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{USER_ROUTE}}",
+								"logout"
 							]
 						}
 					},
@@ -90,13 +132,34 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Product\",\r\n    \"description\": \"Description\",\r\n    \"price\": 1,\r\n    \"ownerId\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Product",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Description",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "ownerId",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/gustavo/Pictures/866-200x300.jpg"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{DOMAIN}}/{{PRODUCT_ROUTE}}",
@@ -221,7 +284,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sellerId\": 1,\r\n    \"clientId\": 2,\r\n    \"total\": 100.00,\r\n    \"status\": \"PENDING\",\r\n    \"orderItems\": [\r\n        {\r\n            \"quantity\": 2,\r\n            \"price\": 25.00,\r\n            \"subtotal\": 50.00,\r\n            \"productId\": 1\r\n        },\r\n        {\r\n            \"quantity\": 1,\r\n            \"price\": 50.00,\r\n            \"subtotal\": 50.00,\r\n            \"productId\": 2\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"clientId\": 1,\r\n    \"sellerId\": 2,\r\n    \"total\": 100.00,\r\n    \"status\": \"PENDING\",\r\n    \"orderItems\": [\r\n        {\r\n            \"quantity\": 2,\r\n            \"price\": 25.00,\r\n            \"subtotal\": 50.00,\r\n            \"productId\": 1\r\n        },\r\n        {\r\n            \"quantity\": 1,\r\n            \"price\": 50.00,\r\n            \"subtotal\": 50.00,\r\n            \"productId\": 2\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -265,7 +328,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"PENDING\"\r\n}",
+							"raw": "{\r\n    \"status\": \"SHIPPED\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -288,6 +351,16 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlNFTExFUiIsImlhdCI6MTcyOTA5NTQ3NiwiZXhwIjoxNzI5MDk1NTM2fQ.OW4vsPW36-XSW2X5XkOk9_GvZe80MKdQe0wQF5tH3UE",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

@@ -14,8 +14,8 @@ async function getUserByUsername(username) {
     return await User.findOne({ where: { username } });
 }
 
-async function getUserByRefreshToken(token) {
-    return await User.findOne({ where: { refreshToken: token } });
+async function getUserByRefreshToken(refreshToken) {
+    return await User.findOne({ where: { refreshToken } });
 }
 
 async function updateUserById(id, updatedUser) {
