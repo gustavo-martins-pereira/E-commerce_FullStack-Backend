@@ -9,7 +9,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://e-commerce-full-stack-frontend.vercel.app/",
     credentials: true,
 }));
 app.use(cookieParser());
