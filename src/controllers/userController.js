@@ -44,7 +44,13 @@ async function loginUser(request, response) {
         } = request.body;
         const { accessToken, refreshToken } = await loginUserUseCase({ username, password });
 
-        response.cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: getRefreshTokenMaxAge() });
+        // TODO: Create a boolean condition to enable the "sameSite: None" only in production mode
+        response.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            maxAge: getRefreshTokenMaxAge(),
+            sameSite: "None",
+            secure: true,
+        });
         return response.status(200).json({ accessToken });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
