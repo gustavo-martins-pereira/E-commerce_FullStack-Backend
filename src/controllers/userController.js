@@ -42,7 +42,7 @@ async function loginUser(request, response) {
             username,
             password
         } = request.body;
-        const { accessToken, refreshToken } = await loginUserUseCase({ username, password });
+        const { accessToken, refreshToken, user } = await loginUserUseCase({ username, password });
 
         const isProduction = process.env.NODE_ENV === "production";
         response.cookie("refreshToken", refreshToken, {
@@ -51,7 +51,8 @@ async function loginUser(request, response) {
             sameSite: isProduction ? "None" : "Lax",
             secure: isProduction,
         });
-        return response.status(200).json({ accessToken });
+
+        return response.status(200).json({ accessToken, user });
     }catch(error) {
         return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
     }

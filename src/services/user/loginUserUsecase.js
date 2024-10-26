@@ -5,19 +5,19 @@ import CustomError from "../../utils/errors/customError.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.js";
 
 async function loginUserUseCase({ username, password }) {
-    const user = await getUserByUsername(username);
+    const existingUser = await getUserByUsername(username);
 
-    if(!user || !(await bcrypt.compare(password, user?.password))) {
+    if(!existingUser || !(await bcrypt.compare(password, existingUser?.password))) {
         throw new CustomError(400, "Invalid credentials");
     }
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
+    const accessToken = generateAccessToken(existingUser);
+    const refreshToken = generateRefreshToken(existingUser);
 
-    const updatedUser = { ...user, refreshToken };
-    await updateUserById(user.id, updatedUser);
+    const updatedUser = { ...existingUser, refreshToken };
+    const user = (await updateUserById(existingUser.id, updatedUser, { plain: true }))[1];
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user: { username: user.username, role: user.role }};
 }
 
 export {
