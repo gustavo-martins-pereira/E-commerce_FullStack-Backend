@@ -18,11 +18,10 @@ async function getUserByRefreshToken(refreshToken) {
     return await User.findOne({ where: { refreshToken } });
 }
 
-async function updateUserById(id, updatedUser, sequelizeOptions) {
+async function updateUserById(id, updatedUser) {
     return await User.update(updatedUser, {
         where: { id },
         returning: true,
-        ...sequelizeOptions
     });
 }
 
