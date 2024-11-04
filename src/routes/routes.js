@@ -25,11 +25,9 @@ publicRoutes.post("/register", postRegisterUserValidator, registerUser);
 publicRoutes.post("/login", postLoginUserValidator, loginUser);
 publicRoutes.post("/login/refresh", refreshToken);
 publicRoutes.post("/users/logout", verifyJwtRefreshToken, verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), logout);
+publicRoutes.get("/users/:username", getUserByUsernameValidator, getUserByUsername);
 
 protectedRoutes.use(verifyJwtAccessToken);
-
-protectedRoutes.get("/users/:username", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getUserByUsernameValidator, getUserByUsername);
-
 
 // PRODUCT
 publicRoutes.get("/products", getAllProducts);
@@ -39,7 +37,6 @@ publicRoutes.get("/products/seller/:sellerId", getProductsBySellerId);
 protectedRoutes.post("/products", verifyRole(USER_ROLES.SELLER), uploadSingleFile("image"), postCreateProductValidator, createProduct);
 protectedRoutes.put("/products/:id", verifyRole(USER_ROLES.SELLER), putUpdateProductValidator, updateProductById);
 protectedRoutes.delete("/products/:id", verifyRole(USER_ROLES.SELLER), deleteProductValidator, deleteProductById);
-
 
 // ORDER
 protectedRoutes.post("/orders", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), postCreateOrderValidator, createOrder);
