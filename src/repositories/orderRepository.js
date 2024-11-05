@@ -16,6 +16,10 @@ async function getOrdersByUserId(userId) {
     }});
 }
 
+async function getOrderById(id) {
+    return await Order.findByPk(id);
+}
+
 async function updateOrderStatusById(id, status) {
     return await Order.update({ status }, {
         where: { id },
@@ -26,5 +30,6 @@ async function updateOrderStatusById(id, status) {
 export {
     createOrder,
     getOrdersByUserId,
+    getOrderById,
     updateOrderStatusById,
 };

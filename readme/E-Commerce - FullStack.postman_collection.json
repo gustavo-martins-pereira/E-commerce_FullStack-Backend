@@ -309,6 +309,25 @@
 						"method": "GET",
 						"header": [],
 						"url": {
+							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}/{{USER_ROUTE}}/1",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{ORDER_ROUTE}}",
+								"{{USER_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
 							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}/1",
 							"host": [
 								"{{DOMAIN}}"
@@ -356,7 +375,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlNFTExFUiIsImlhdCI6MTcyOTA5NTQ3NiwiZXhwIjoxNzI5MDk1NTM2fQ.OW4vsPW36-XSW2X5XkOk9_GvZe80MKdQe0wQF5tH3UE",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MzA3NTI3NzgsImV4cCI6MTczMzM0NDc3OH0.aSUng6qg4j2TfbIOBzIVCu-Lf_OGSxWUgfNiP9tuOEQ",
 				"type": "string"
 			}
 		]

@@ -40,6 +40,12 @@ const postCreateOrderValidator = [
             .isInt({ gt: 0 }).withMessage("The productId must be a positive integer greater than 0"),
 ];
 
+const getOrderByIdValidator = [
+    param("id")
+        .isNumeric().withMessage("The id must be a number")
+        .escape(),
+];
+
 const getOrdersByUserIdValidator = [
     param("userId")
         .isNumeric().withMessage("The userId must be a number")
@@ -59,6 +65,7 @@ const patchUpdateOrderStatusByIdValidator = [
 
 export {
     postCreateOrderValidator,
+    getOrderByIdValidator,
     getOrdersByUserIdValidator,
     patchUpdateOrderStatusByIdValidator,
 };
