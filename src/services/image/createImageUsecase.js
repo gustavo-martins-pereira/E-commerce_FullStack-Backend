@@ -1,7 +1,8 @@
 import { createImage } from "../../repositories/imageRepository.js";
 
 async function createImageUsecase({ name, data }) {
-    const timeStampName = `${(new Date()).getTime()}_${name}`;
+    const formattedName = name.replace(/\.[^/.]+$/, "");
+    const timeStampName = `${(new Date()).getTime()}_${formattedName}`;
 
     return await createImage({ name: timeStampName, data });
 }

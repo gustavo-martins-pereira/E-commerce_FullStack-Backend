@@ -20,6 +20,13 @@ const postCreateProductValidator = [
         .exists().withMessage("The ownerId is required")
         .isNumeric().withMessage("The ownerId must be a number")
         .isInt({ gt: 0 }).withMessage("The ownerId must be greater than 0"),
+    body("image")
+        .custom((value, { req }) => {
+            if (!req.file) {
+                throw new Error("Image file is required");
+            }
+            return true;
+        })
 ];
 
 const putUpdateProductValidator = [
