@@ -4,7 +4,6 @@ import { getUserByRefreshToken, getUserByUsername, updateUserById } from "../../
 import CustomError from "../../utils/errors/customError.js";
 
 async function logoutUseCase(refreshToken) {
-    console.log(jwtDecode(refreshToken));
     let user = await getUserByRefreshToken(refreshToken);
     if(!user) {
         user = await getUserByUsername(jwtDecode(refreshToken).username);
