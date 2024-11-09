@@ -104,17 +104,36 @@
 					"response": []
 				},
 				{
-					"name": "User by Username",
+					"name": "User by Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/{{USER_ROUTE}}/username",
+							"raw": "{{DOMAIN}}/{{USER_ROUTE}}/1",
 							"host": [
 								"{{DOMAIN}}"
 							],
 							"path": [
 								"{{USER_ROUTE}}",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User by Username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/{{USER_ROUTE}}/usernames/username",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"{{USER_ROUTE}}",
+								"usernames",
 								"username"
 							]
 						}
@@ -304,18 +323,18 @@
 					"response": []
 				},
 				{
-					"name": "Orders by User Id",
+					"name": "Orders by Seller Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}/{{USER_ROUTE}}/1",
+							"raw": "{{DOMAIN}}/{{ORDER_ROUTE}}/sellers/1",
 							"host": [
 								"{{DOMAIN}}"
 							],
 							"path": [
 								"{{ORDER_ROUTE}}",
-								"{{USER_ROUTE}}",
+								"sellers",
 								"1"
 							]
 						}
@@ -375,7 +394,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MzA3NTI3NzgsImV4cCI6MTczMzM0NDc3OH0.aSUng6qg4j2TfbIOBzIVCu-Lf_OGSxWUgfNiP9tuOEQ",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlNFTExFUiIsImlhdCI6MTczMDg5ODEyMCwiZXhwIjoxNzMwODk4MTUwfQ.fIB0jZe0Pe-pLTAO1qbcAD-uFfbgXUADXEPVrPhgL4k",
 				"type": "string"
 			}
 		]

@@ -2,6 +2,7 @@ import { matchedData, validationResult } from "express-validator";
 
 import { registerUserUseCase } from "../services/user/registerUserUsecase.js";
 import { loginUserUseCase } from "../services/user/loginUserUsecase.js";
+import { getUserByIdUsecase } from "../services/user/getUserByIdUsecase.js";
 import { getUserByUsernameUsecase } from "../services/user/getUserByUsernameUsecase.js";
 import { refreshTokenUseCase } from "../services/user/refreshTokenUsecase.js";
 import { logoutUseCase } from "../services/user/logoutUsecase.js";
@@ -71,6 +72,24 @@ async function refreshToken(request, response) {
     }
 }
 
+async function getUserById(request, response) {
+    const result = validationResult(request);
+
+    if (!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
+    try {
+        const { id } = request.params;
+
+        const user = await getUserByIdUsecase(id);
+
+        return user ? response.status(200).json(user) : response.status(404).json({message: "User not found"});
+    } catch(error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
 async function getUserByUsername(request, response) {
     const result = validationResult(request);
 
@@ -106,6 +125,7 @@ export {
     registerUser,
     loginUser,
     refreshToken,
+    getUserById,
     getUserByUsername,
     logout,
 };

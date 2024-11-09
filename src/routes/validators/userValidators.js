@@ -33,6 +33,11 @@ const postLoginUserValidator = [
         .escape(),
 ];
 
+const getUserByIdValidator = [
+    param("id")
+        .isNumeric().withMessage("The id must be a number")
+        .escape(),
+];
 
 const getUserByUsernameValidator = [
     param("username")
@@ -43,5 +48,6 @@ const getUserByUsernameValidator = [
 export {
     postRegisterUserValidator,
     postLoginUserValidator,
+    getUserByIdValidator,
     getUserByUsernameValidator,
 };

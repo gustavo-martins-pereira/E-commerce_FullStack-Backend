@@ -1,7 +1,7 @@
 import express from "express";
 
-import { getUserByUsername, loginUser, logout, refreshToken, registerUser } from "../controllers/userController.js";
-import { getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
+import { getUserById, getUserByUsername, loginUser, logout, refreshToken, registerUser } from "../controllers/userController.js";
+import { getUserByIdValidator, getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
 import { createProduct, deleteProductById, getAllProducts, getProductById, getProductsBySellerId, updateProductById } from "../controllers/productController.js";
 import { deleteProductValidator, postCreateProductValidator, putUpdateProductValidator } from "./validators/productValidators.js";
 import { createOrder, getOrderById, getOrdersByClientId, getOrdersBySellerId, updateOrderStatusById } from "../controllers/orderController.js";
@@ -25,7 +25,8 @@ publicRoutes.post("/register", postRegisterUserValidator, registerUser);
 publicRoutes.post("/login", postLoginUserValidator, loginUser);
 publicRoutes.post("/login/refresh", refreshToken);
 publicRoutes.post("/users/logout", verifyJwtRefreshToken, verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), logout);
-publicRoutes.get("/users/:username", getUserByUsernameValidator, getUserByUsername);
+publicRoutes.get("/users/:id", getUserByIdValidator, getUserById);
+publicRoutes.get("/users/usernames/:username", getUserByUsernameValidator, getUserByUsername);
 
 protectedRoutes.use(verifyJwtAccessToken);
 
