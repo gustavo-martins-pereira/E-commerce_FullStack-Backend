@@ -4,8 +4,8 @@ import { getUserByUsername, loginUser, logout, refreshToken, registerUser } from
 import { getUserByUsernameValidator, postLoginUserValidator, postRegisterUserValidator } from "./validators/userValidators.js";
 import { createProduct, deleteProductById, getAllProducts, getProductById, getProductsBySellerId, updateProductById } from "../controllers/productController.js";
 import { deleteProductValidator, postCreateProductValidator, putUpdateProductValidator } from "./validators/productValidators.js";
-import { createOrder, getOrderById, getOrdersByUserId, updateOrderStatusById } from "../controllers/orderController.js";
-import { getOrderByIdValidator, getOrdersByUserIdValidator, patchUpdateOrderStatusByIdValidator, postCreateOrderValidator } from "./validators/orderValidators.js";
+import { createOrder, getOrderById, getOrdersByClientId, getOrdersBySellerId, updateOrderStatusById } from "../controllers/orderController.js";
+import { getOrderByIdValidator, getOrdersByClientIdValidator, getOrdersBySellerIdValidator, patchUpdateOrderStatusByIdValidator, postCreateOrderValidator } from "./validators/orderValidators.js";
 
 // Middlewares
 import verifyJwtAccessToken from "../middlewares/verifyJwtAccessToken.js";
@@ -41,7 +41,8 @@ protectedRoutes.delete("/products/:id", verifyRole(USER_ROLES.SELLER), deletePro
 // ORDER
 protectedRoutes.post("/orders", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), postCreateOrderValidator, createOrder);
 protectedRoutes.get("/orders/:id", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getOrderByIdValidator, getOrderById);
-protectedRoutes.get("/orders/users/:userId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getOrdersByUserIdValidator, getOrdersByUserId);
+protectedRoutes.get("/orders/clients/:clientId", verifyRole(USER_ROLES.USER, USER_ROLES.SELLER), getOrdersByClientIdValidator, getOrdersByClientId);
+protectedRoutes.get("/orders/sellers/:sellerId", verifyRole(USER_ROLES.SELLER), getOrdersBySellerIdValidator, getOrdersBySellerId);
 protectedRoutes.patch("/orders/:id", verifyRole(USER_ROLES.SELLER), patchUpdateOrderStatusByIdValidator, updateOrderStatusById);
 
 routes.use(publicRoutes);

@@ -1,4 +1,3 @@
-import { Op } from "sequelize";
 import db from "../db/models/index.js";
 
 const { Order } = db;
@@ -7,13 +6,12 @@ async function createOrder({ total, status, clientId, sellerId }) {
     return await Order.create({ total, status, clientId, sellerId });
 }
 
-async function getOrdersByUserId(userId) {
-    return await Order.findAll({ where: {
-        [Op.or]: [
-            {sellerId: userId},
-            {clientId: userId},
-        ],
-    }});
+async function getOrdersByClientId(clientId) {
+    return await Order.findAll({ where: {clientId} });
+}
+
+async function getOrdersBySellerId(sellerId) {
+    return await Order.findAll({ where: {sellerId} });
 }
 
 async function getOrderById(id) {
@@ -29,7 +27,8 @@ async function updateOrderStatusById(id, status) {
 
 export {
     createOrder,
-    getOrdersByUserId,
+    getOrdersByClientId,
+    getOrdersBySellerId,
     getOrderById,
     updateOrderStatusById,
 };

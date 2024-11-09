@@ -46,9 +46,15 @@ const getOrderByIdValidator = [
         .escape(),
 ];
 
-const getOrdersByUserIdValidator = [
-    param("userId")
-        .isNumeric().withMessage("The userId must be a number")
+const getOrdersByClientIdValidator = [
+    param("clientId")
+        .isNumeric().withMessage("The clientId must be a number")
+        .escape(),
+];
+
+const getOrdersBySellerIdValidator = [
+    param("sellerId")
+        .isNumeric().withMessage("The sellerId must be a number")
         .escape(),
 ];
 
@@ -66,6 +72,7 @@ const patchUpdateOrderStatusByIdValidator = [
 export {
     postCreateOrderValidator,
     getOrderByIdValidator,
-    getOrdersByUserIdValidator,
+    getOrdersByClientIdValidator,
+    getOrdersBySellerIdValidator,
     patchUpdateOrderStatusByIdValidator,
 };

@@ -2,7 +2,8 @@ import { validationResult } from "express-validator";
 
 import { createOrderUseCase } from "../services/order/createOrderUsecase.js";
 import { createOrderItemUsecase } from "../services/orderItem/createOrderItemUsecase.js";
-import { getOrdersByUserIdUsecase } from "../services/order/getOrdersByUserIdUsecase.js";
+import { getOrdersByClientIdUsecase } from "../services/order/getOrdersByClientIdUsecase.js";
+import { getOrdersBySellerIdUsecase } from "../services/order/getOrdersBySellerIdUsecase.js";
 import { getOrderItemsByOrderIdUsecase } from "../services/orderItem/getOrderItemsByOrderIdUsecase.js";
 import { getOrderByIdUsecase } from "../services/order/getOrderByIdUsecase.js";
 import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase.js";
@@ -73,7 +74,7 @@ async function getOrderById(request, response) {
     }
 }
 
-async function getOrdersByUserId(request, response) {
+async function getOrdersByClientId(request, response) {
     const result = validationResult(request);
 
     if(!result.isEmpty()) {
@@ -81,15 +82,55 @@ async function getOrdersByUserId(request, response) {
     }
 
     try {
-        const { userId } = request.params;
-        const username = extractJwtPayloadProperty(request, "username");
+        const { clientId } = request.params;
 
-        const orders = await getOrdersByUserIdUsecase(userId, username);
+        const orders = await getOrdersByClientIdUsecase(clientId);
 
         const ordersWithItems = await Promise.all(
             orders.map(async order => {
                 const orderItems = await getOrderItemsByOrderIdUsecase(order.id);
-                return { ...order.toJSON(), orderItems };
+
+                const orderItemsWithProducts = await Promise.all(orderItems.map(async orderItem => {
+                    const product = await getProductByIdUsecase(orderItem.productId);
+                    delete orderItem.dataValues.productId;
+
+                    return { ...orderItem.dataValues, product };
+                }));
+
+                return { ...order.dataValues, orderItems: orderItemsWithProducts };
+            })
+        );
+
+        return response.status(200).json(ordersWithItems);
+    } catch(error) {
+        return response.status(error instanceof CustomError ? error.statusCode : 500).json({ error: error.message});
+    }
+}
+
+async function getOrdersBySellerId(request, response) {
+    const result = validationResult(request);
+
+    if(!result.isEmpty()) {
+        return response.status(400).json({ errors: result.array() });
+    }
+
+    try {
+        const { sellerId } = request.params;
+
+        const orders = await getOrdersBySellerIdUsecase(sellerId);
+
+        const ordersWithItems = await Promise.all(
+            orders.map(async order => {
+                const orderItems = await getOrderItemsByOrderIdUsecase(order.id);
+
+                const orderItemsWithProducts = await Promise.all(orderItems.map(async orderItem => {
+                    const product = await getProductByIdUsecase(orderItem.productId);
+                    delete orderItem.dataValues.productId;
+
+                    return { ...orderItem.dataValues, product };
+                }));
+
+                return { ...order.dataValues, orderItems: orderItemsWithProducts };
             })
         );
 
@@ -121,6 +162,7 @@ async function updateOrderStatusById(request, response) {
 export {
     createOrder,
     getOrderById,
-    getOrdersByUserId,
+    getOrdersByClientId,
+    getOrdersBySellerId,
     updateOrderStatusById,
 };
