@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import routes from "./routes/routes.js";
+import "./redis/redisClient.js";
 
 // Express/Server configurations
 const app = express();
