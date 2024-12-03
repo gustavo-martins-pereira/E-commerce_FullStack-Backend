@@ -1,6 +1,6 @@
 # Backend do E-commerce FullStack
 
-Backend para o funcionamento do site do Ecommerce *FullStack*, usando rotas *HTTP* e as entidades relacionadas as regras de negócio da aplicação, com rotas autorizadas através de **JWT**.
+Backend para o funcionamento do site do Ecommerce *FullStack*, usando rotas *HTTP* e as entidades relacionadas as regras de negócio da aplicação, com rotas autorizadas através de **JWT** e utilizando banco de dados Cache **Redis** para um desempenho melhor.
 
 ## Sumário
 
@@ -16,6 +16,7 @@ Backend para o funcionamento do site do Ecommerce *FullStack*, usando rotas *HTT
 <img alt="JWT Logo" height="60" width="60" src="./readme/jwt.svg" />&nbsp;
 <img alt="NPM Logo" height="60" width="60" src="./readme/npm.svg" />&nbsp;
 <img alt="PostgreSQL Logo" height="60" width="60" src="./readme/postgresql.svg" />&nbsp;
+<img alt="PostgreSQL Logo" height="60" width="60" src="./readme/redis.svg" />&nbsp;
 
 ## &#x2699; Instalação
 
@@ -90,7 +91,7 @@ npm run start
 ```
 
 #### &#x26A0; JWT &#x26A0;
-Todas as rotas são protegidas por ***JWT*** (exceto a de registro, login e *refreshToken*), então antes de executar qualquer requisição, crie um novo usuário na rota de registro, e faça o login na rota de login para obter o ***Access Token***. O ***Access Token*** tem um prazo de validade de apenas **1 minuto**, e para obter um novo token de acesso, basta executar a rota de *refreshToken*.
+Todas as rotas são protegidas por ***JWT*** (exceto a de registro, login e *refreshToken* e outras rotas estratégicas), então antes de executar qualquer requisição, crie um novo usuário na rota de registro, e faça o login na rota de login para obter o ***Access Token***. O ***Access Token*** tem um prazo de validade de apenas **1 minuto**, e para obter um novo token de acesso, basta executar a rota de *refreshToken*.
 > A duração é pequena para impedir danos relativos ao vazamento do token de acesso as rotas, para mais informações, acesse o conceito de [Access token e Refresh token](https://www.google.com/search?q=access%20token%20and%20refresh%20token%20jwt)
 
 Lembrando que dependendo do tipo de usuário que você criar, as rotas podem ter acesso restrito, permitindo que somente usuário com certos tipos de *role* possam acessar aquele recurso.
@@ -109,6 +110,9 @@ Lembrando que dependendo do tipo de usuário que você criar, as rotas podem ter
 │   ├── /seeders
 │   └── package.json
 ├── /middlewares
+├── /redis
+│   ├── /services
+│   ├── redisClient.js
 ├── /repositories
 │   ├── entityRepository.js
 ├── /routes
