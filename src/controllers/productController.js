@@ -41,27 +41,7 @@ async function createProduct(request, response) {
 
 async function getAllProducts(request, response) {
     try {
-        const isProductsCacheStale = !(await redisClient.get("product:all:updated"));
-        if(isProductsCacheStale) {
-            const isProductsCacheFetching = await redisClient.get("product:all:fetching");
-
-            if(!isProductsCacheFetching) {
-                await redisClient.set("product:all:fetching", "true", { EX: 15 });
-
-                setTimeout(async () => {
-                    const products = await getAllProductsUseCase();
-                    await redisClient.set("product:all", JSON.stringify(products));
-                    await redisClient.set("product:all:updated", "true", { EX: 60 });
-                    await redisClient.del("product:all:fetching");
-                }, 0);
-            }
-        }
-
-        const productsCache = await redisClient.get("product:all");
-        if(productsCache) return response.status(200).json(JSON.parse(productsCache))
-
         const products = await getAllProductsUseCase();
-        await redisClient.set("product:all", JSON.stringify(products));
 
         return response.status(200).json(products);
     } catch(error) {
