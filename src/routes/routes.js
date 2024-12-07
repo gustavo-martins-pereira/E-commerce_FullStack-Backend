@@ -20,6 +20,11 @@ const routes = express.Router();
 const publicRoutes = express.Router();
 const protectedRoutes = express.Router();
 
+// HEALTH CHECK SERVICE
+publicRoutes.get("/check", (request, response) => {
+    return response.sendStatus(200);
+});
+
 // USER
 publicRoutes.post("/register", postRegisterUserValidator, registerUser);
 publicRoutes.post("/login", postLoginUserValidator, loginUser);
