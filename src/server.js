@@ -26,7 +26,7 @@ app.listen(port, () => {
 // Service for avoid inactivity in Backend Deploy
 cron.schedule("* * * * *", () => {
     const options = {
-        hostname: "https://e-commerce-fullstack-backend.onrender.com",
+        hostname: "localhost",
         port: 3000,
         path: "/check",
         method: "GET",
