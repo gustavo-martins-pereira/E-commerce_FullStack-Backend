@@ -41,11 +41,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         description: {
             type: DataTypes.TEXT,
-            validate: {
-                notEmpty: {
-                    msg: "Product description cannot be empty",
-                },
-            },
         },
         price: {
             type: DataTypes.FLOAT,

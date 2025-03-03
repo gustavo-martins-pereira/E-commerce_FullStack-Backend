@@ -10,7 +10,6 @@ const postCreateProductValidator = [
     body("description")
         .optional()
         .isString().withMessage("The description must be a string")
-        .trim().notEmpty().withMessage("The description cannot be empty")
         .escape(),
     body("price")
         .exists().withMessage("The price is required")

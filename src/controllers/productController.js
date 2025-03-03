@@ -8,7 +8,6 @@ import { getProductsBySellerIdUsecase } from "../services/product/getProductsByS
 import { updateProductByIdUsecase } from "../services/product/updateProductByIdUsecase.js";
 import { deleteProductByIdUsecase } from "../services/product/deleteProductById.js";
 import { createImageUsecase } from "../services/image/createImageUsecase.js";
-import { redisClient } from "../redis/redisClient.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
