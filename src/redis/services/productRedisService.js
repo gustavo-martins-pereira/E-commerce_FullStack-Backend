@@ -11,7 +11,7 @@ async function getAllProductsCache() {
 }
 
 async function setAllProductsCache(products) {
-    await redisClient.set(ALL_PRODUCTS_CACHE_KEY, JSON.stringify(products));
+    await redisClient.set(ALL_PRODUCTS_CACHE_KEY, JSON.stringify(products), { EX: 60 });
 }
 
 async function isCacheStale() {
