@@ -7,7 +7,7 @@ function verifyJwtAccessToken(request, response, next) {
     const accessToken = authHeader.split(" ")[1];
     jsonwebtoken.verify(
         accessToken,
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.JWT_ACCESS_TOKEN_SECRET,
         (error, decoded) => {
             if(error) {
                 if(error.name === "TokenExpiredError") {

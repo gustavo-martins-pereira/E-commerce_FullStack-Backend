@@ -6,7 +6,7 @@ function verifyJwtRefreshToken(request, response, next) {
 
     jsonwebtoken.verify(
         refreshToken,
-        process.env.REFRESH_TOKEN_SECRET,
+        process.env.JWT_REFRESH_TOKEN_SECRET,
         (error, decoded) => {
             if(error) {
                 if(error.name === "TokenExpiredError") {

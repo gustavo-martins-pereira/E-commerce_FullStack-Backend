@@ -10,7 +10,7 @@ async function refreshTokenUseCase(refreshToken) {
 
     return jwt.verify(
         refreshToken,
-        process.env.REFRESH_TOKEN_SECRET,
+        process.env.JWT_REFRESH_TOKEN_SECRET,
         (err, decoded) => {
             if(err || user.username !== decoded.username) throw new CustomError(403, "Invalid credentials");
 

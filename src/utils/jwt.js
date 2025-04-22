@@ -31,7 +31,7 @@ function generateAccessToken(user) {
             username: user.username,
             role: user.role,
         },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.JWT_ACCESS_TOKEN_SECRET,
         { expiresIn: JWT_CONFIGS.ACCESS_TOKEN_EXPIRE_TIMEOUT }
     );
 }
@@ -42,7 +42,7 @@ function generateRefreshToken(user) {
             username: user.username,
             role: user.role,
         },
-        process.env.REFRESH_TOKEN_SECRET,
+        process.env.JWT_REFRESH_TOKEN_SECRET,
         { expiresIn: JWT_CONFIGS.REFRESH_TOKEN_EXPIRE_TIMEOUT }
     );
 }

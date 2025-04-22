@@ -10,7 +10,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: process.env.NODE_ENV === "production" ? "https://e-commerce-full-stack-frontend.vercel.app" : true,
+    origin: process.env.NODE_ENV === "production" ? process.env.CORS_ORIGIN : true,
     credentials: true,
 }));
 app.use(cookieParser());
