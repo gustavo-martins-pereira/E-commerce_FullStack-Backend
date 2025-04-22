@@ -11,10 +11,10 @@ async function getAllProductsCache() {
 }
 
 async function setAllProductsCache(products) {
-    await redisClient.set(ALL_PRODUCTS_CACHE_KEY, JSON.stringify(products), { EX: 60 });
+    await redisClient.set(ALL_PRODUCTS_CACHE_KEY, JSON.stringify(products));
 }
 
-async function isCacheStale() {
+async function isProductsCacheOutdated() {
     const updated = await redisClient.get(ALL_PRODUCTS_UPDATED_KEY);
 
     return !updated;
@@ -42,7 +42,7 @@ async function clearFetchingFlag() {
 export {
     getAllProductsCache,
     setAllProductsCache,
-    isCacheStale,
+    isProductsCacheOutdated,
     setFetchingFlag,
     clearFetchingFlag,
     isFetching,

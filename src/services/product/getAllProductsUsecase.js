@@ -1,6 +1,6 @@
 import {
     getAllProductsCache,
-    isCacheStale,
+    isProductsCacheOutdated,
     isFetching,
     setFetchingFlag,
     clearFetchingFlag,
@@ -9,10 +9,9 @@ import {
 import { getAllProducts } from "../../repositories/productRepository.js";
 
 async function getAllProductsUseCase() {
-    const cachedProducts = await getAllProductsCache();
-    if(cachedProducts) return cachedProducts;
+    const isOutdated = await isProductsCacheOutdated();
 
-    if(await isCacheStale()) {
+    if(isOutdated) {
         const fetching = await isFetching();
 
         if(!fetching) {
@@ -22,11 +21,12 @@ async function getAllProductsUseCase() {
                 const products = await getAllProducts();
                 await updateCache(products);
                 await clearFetchingFlag();
+                console.log("timeout");
             }, 0);
         }
     }
 
-    return await getAllProducts();
+    return await getAllProductsCache();
 }
 
 export { getAllProductsUseCase };
