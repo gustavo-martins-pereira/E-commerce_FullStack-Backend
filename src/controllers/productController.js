@@ -7,7 +7,8 @@ import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase
 import { getProductsBySellerIdUsecase } from "../services/product/getProductsBySellerIdUsecase.js";
 import { updateProductByIdUsecase } from "../services/product/updateProductByIdUsecase.js";
 import { deleteProductByIdUsecase } from "../services/product/deleteProductById.js";
-import { createImageUsecase } from "../services/image/createImageUsecase.js";
+import { getImageUrl, saveImage } from "../aws/services/s3Service.js";
+import { generateRandomImageName } from "../utils/image.js";
 
 async function createProduct(request, response) {
     const result = validationResult(request);
@@ -17,11 +18,7 @@ async function createProduct(request, response) {
     }
 
     try {
-        const { originalname, buffer } = request.file;
-        const image = await createImageUsecase({
-            name: originalname,
-            data: buffer,
-        });
+        const file = request.file;
 
         const {
             name,
@@ -30,7 +27,11 @@ async function createProduct(request, response) {
             ownerId,
         } = request.body;
 
-        const product = await createProductUseCase({ name, description, price, ownerId, imageId: image.id });
+        const imageName = generateRandomImageName();
+
+        await saveImage(file, imageName);
+
+        const product = await createProductUseCase({ name, description, price, ownerId, imageName });
 
         return response.status(201).json(product);
     } catch(error) {
@@ -41,6 +42,10 @@ async function createProduct(request, response) {
 async function getAllProducts(request, response) {
     try {
         const products = await getAllProductsUseCase();
+
+        for(const product of products) {
+            product.imageUrl = await getImageUrl(product.imageName);
+        };
 
         return response.status(200).json(products);
     } catch(error) {

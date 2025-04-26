@@ -21,7 +21,6 @@ async function getAllProductsUseCase() {
                 const products = await getAllProducts();
                 await updateCache(products);
                 await clearFetchingFlag();
-                console.log("timeout");
             }, 0);
         }
     }

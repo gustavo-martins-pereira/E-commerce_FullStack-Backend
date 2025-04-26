@@ -1,6 +1,9 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import routes from "./routes/routes.js";
 import "./redis/redisClient.js";

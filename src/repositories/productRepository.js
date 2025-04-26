@@ -1,33 +1,17 @@
 import db from "../db/models/index.js";
 
-const { Product, Image } = db;
+const { Product } = db;
 
-async function createProduct({ name, description, price, ownerId, imageId }) {
-    return await Product.create({ name, description, price, ownerId, imageId });
+async function createProduct({ name, description, price, ownerId, imageName }) {
+    return await Product.create({ name, description, price, ownerId, imageName });
 }
 
 async function getAllProducts() {
-    return await Product.findAll({
-        include: {
-            model: Image,
-            as: "image",
-        },
-        attributes: {
-            exclude: ['imageId'],
-        },
-    });
+    return await Product.findAll();
 }
 
 async function getProductById(id) {
-    return await Product.findByPk(id, {
-        include: {
-            model: Image,
-            as: "image"
-        },
-        attributes: {
-            exclude: ['imageId'],
-        },
-    });
+    return await Product.findByPk(id);
 }
 
 async function getProductByName(name) {
@@ -38,13 +22,6 @@ async function getProductsBySellerId(sellerId) {
     return await Product.findAll({
         where: {
             ownerId: sellerId
-        },
-        include: {
-            model: Image,
-            as: "image"
-        },
-        attributes: {
-            exclude: ['imageId'],
         },
     });
 }
