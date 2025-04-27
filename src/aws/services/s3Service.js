@@ -8,7 +8,7 @@ const bucketName = process.env.S3_BUCKET_NAME;
 
 async function saveImage(file, imageName) {
     const fileBuffer = await sharp(file.buffer)
-            .resize({ height: 1920, width: 1080, fit: "contain" })
+            .resize({ height: 1080, width: 1920, fit: "contain" })
             .toBuffer();
 
     const s3Params = {
@@ -23,8 +23,6 @@ async function saveImage(file, imageName) {
 }
 
 async function getImageUrl(imageName) {
-    console.log("Generating signed URL for image:", imageName);
-
     const s3Params = {
         Bucket: bucketName,
         Key: imageName,

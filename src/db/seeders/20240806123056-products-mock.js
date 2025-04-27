@@ -42,7 +42,7 @@ module.exports = {
             const imageBuffer = await response.arrayBuffer();
             
             const processedImage = await sharp(Buffer.from(imageBuffer))
-                .resize({ height: 1920, width: 1080, fit: "contain" })
+                .resize({ height: 1080, width: 1920, fit: "contain" })
                 .toBuffer();
 
             const randomImageName = generateRandomImageName();

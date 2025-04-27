@@ -10,6 +10,7 @@ import { getProductByIdUsecase } from "../services/product/getProductByIdUsecase
 import { updateOrderStatusByIdUsecase } from "../services/order/updateOrderStatusByIdUsecase.js";
 import CustomError from "../utils/errors/customError.js";
 import extractJwtPayloadProperty from "../utils/extractJwtPayloadProperty.js";
+import { getImageUrl } from "../aws/services/s3Service.js";
 
 async function createOrder(request, response) {
     const result = validationResult(request);
@@ -63,7 +64,13 @@ async function getOrderById(request, response) {
             const product = await getProductByIdUsecase(orderItem.productId);
             delete orderItem.dataValues.productId;
 
-            return { ...orderItem.dataValues, product };
+            return {
+                ...orderItem.dataValues,
+                product: {
+                    ...product.dataValues,
+                    imageUrl: await getImageUrl(product.imageName),
+                },
+            };
         }));
 
         order.dataValues.orderItems = orderItems;
@@ -94,7 +101,13 @@ async function getOrdersByClientId(request, response) {
                     const product = await getProductByIdUsecase(orderItem.productId);
                     delete orderItem.dataValues.productId;
 
-                    return { ...orderItem.dataValues, product };
+                    return {
+                        ...orderItem.dataValues,
+                        product: {
+                            ...product.dataValues,
+                            imageUrl: await getImageUrl(product.imageName),
+                        },
+                    };
                 }));
 
                 return { ...order.dataValues, orderItems: orderItemsWithProducts };
@@ -127,7 +140,13 @@ async function getOrdersBySellerId(request, response) {
                     const product = await getProductByIdUsecase(orderItem.productId);
                     delete orderItem.dataValues.productId;
 
-                    return { ...orderItem.dataValues, product };
+                    return {
+                        ...orderItem.dataValues,
+                        product: {
+                            ...product.dataValues,
+                            imageUrl: await getImageUrl(product.imageName),
+                        },
+                    };
                 }));
 
                 return { ...order.dataValues, orderItems: orderItemsWithProducts };

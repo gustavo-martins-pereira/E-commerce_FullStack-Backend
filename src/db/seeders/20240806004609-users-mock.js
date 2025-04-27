@@ -15,7 +15,7 @@ module.exports = {
 
             users.push({
                 username: faker.person.firstName(),
-                password: faker.internet.password({ length: 10 }),
+                password: "password",
                 role: userRoles[randomNumber],
             });
         }

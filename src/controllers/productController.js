@@ -55,7 +55,12 @@ async function getAllProducts(request, response) {
 
 async function getProductById(request, response) {
     try {
-        const product = await getProductByIdUsecase(request.params.id);
+        let product = await getProductByIdUsecase(request.params.id);
+
+        product = {
+            ...product.dataValues,
+            imageUrl: await getImageUrl(product.imageName)
+        };
 
         return response.status(200).json(product);
     } catch(error) {
@@ -65,7 +70,14 @@ async function getProductById(request, response) {
 
 async function getProductsBySellerId(request, response) {
     try {
-        const products = await getProductsBySellerIdUsecase(request.params.sellerId);
+        let products = await getProductsBySellerIdUsecase(request.params.sellerId);
+
+        products = await Promise.all(products.map(async product => {
+            return {
+                ...product.dataValues,
+                imageUrl: await getImageUrl(product.imageName),
+            };
+        }));
 
         return response.status(200).json(products);
     } catch(error) {
