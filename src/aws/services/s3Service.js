@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { s3Client } from "../awsClient.js";
 
@@ -32,7 +32,18 @@ async function getImageUrl(imageName) {
     return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 }
 
+async function deleteImageByName(imageName) {
+    const s3Params = {
+        Bucket: bucketName,
+        Key: imageName,
+    };
+
+    const command = new DeleteObjectCommand(s3Params);
+    await s3Client.send(command);
+}
+
 export {
     saveImage,
     getImageUrl,
+    deleteImageByName,
 };
