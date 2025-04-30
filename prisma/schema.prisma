@@ -1,0 +1,75 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model order_items {
+    order_id   Int
+    product_id Int
+    quantity   Int
+    price      Float
+    subtotal   Float
+    created_at DateTime @default(now()) @db.Timestamptz(6)
+    updated_at DateTime @default(now()) @db.Timestamptz(6)
+    orders     orders   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+    products   products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+    @@id([order_id, product_id])
+}
+
+model orders {
+    id                     Int                @id @default(autoincrement())
+    total                  Float
+    status                 enum_orders_status
+    client_id              Int
+    seller_id              Int
+    created_at             DateTime           @default(now()) @db.Timestamptz(6)
+    updated_at             DateTime           @default(now()) @db.Timestamptz(6)
+    order_items            order_items[]
+    users_orders_client_id users              @relation("orders_client_id", fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    users_orders_seller_id users              @relation("orders_seller_id", fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model products {
+    id          Int           @id @default(autoincrement())
+    name        String        @db.VarChar(100)
+    description String?
+    price       Float
+    owner_id    Int
+    created_at  DateTime      @default(now()) @db.Timestamptz(6)
+    updated_at  DateTime      @default(now()) @db.Timestamptz(6)
+    image_name  String        @db.VarChar(255)
+    order_items order_items[]
+    users       users         @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    @@unique([name, owner_id], map: "products_name_owner_id_uk")
+}
+
+model users {
+    id                      Int             @id @default(autoincrement())
+    username                String          @unique @db.VarChar(50)
+    password                String          @db.VarChar(255)
+    role                    enum_users_role @default(USER)
+    created_at              DateTime        @default(now()) @db.Timestamptz(6)
+    updated_at              DateTime        @default(now()) @db.Timestamptz(6)
+    refresh_token           String?         @db.VarChar(255)
+    orders_orders_client_id orders[]        @relation("orders_client_id")
+    orders_orders_seller_id orders[]        @relation("orders_seller_id")
+    products                products[]
+}
+
+enum enum_orders_status {
+    PENDING
+    SHIPPED
+    DELIVERED
+}
+
+enum enum_users_role {
+    USER
+    SELLER
+}
