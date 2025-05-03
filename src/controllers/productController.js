@@ -31,7 +31,7 @@ async function createProduct(request, response) {
 
         await saveImage(file, imageName);
 
-        const product = await createProductUseCase({ name, description, price, ownerId, imageName });
+        const product = await createProductUseCase({ name, description, price, ownerId: Number(ownerId), imageName });
 
         return response.status(201).json(product);
     } catch(error) {

@@ -7,7 +7,7 @@ async function createProductUseCase({ name, description, price, ownerId, imageNa
     if(!user) throw new CustomError(404, "Owner not exists");
     
     const product = await getProductByName(name);
-    if(product?.name === name && product.ownerId == ownerId) throw new CustomError(400, "This product already exists");
+    if(product?.name === name && product?.ownerId == ownerId) throw new CustomError(400, "This product already exists");
 
     return await createProduct({ name, description, price, ownerId, imageName });
 }
