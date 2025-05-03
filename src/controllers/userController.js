@@ -82,7 +82,7 @@ async function getUserById(request, response) {
     try {
         const { id } = request.params;
 
-        const user = await getUserByIdUsecase(id);
+        const user = await getUserByIdUsecase(Number(id));
 
         return user ? response.status(200).json(user) : response.status(404).json({message: "User not found"});
     } catch(error) {
