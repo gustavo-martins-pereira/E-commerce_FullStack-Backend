@@ -68,7 +68,7 @@ npm install
 ```
 
 4. Configure o arquivo de ambiente `.env` conforme o seu banco PostgreSQL.
-> Até o momento o banco usado no projeto é um banco de dados local
+> Você pode criar um banco no [Supabase](https://supabase.com/) e configurar o .env de acordo com os parâmetros de conexão do seu banco
 
 <details>
     <summary><b><i>Passos para a configuração inicial do banco</i></b></summary>
