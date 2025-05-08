@@ -69,6 +69,7 @@ npm install
 
 4. Configure o arquivo de ambiente `.env`.
 > Você pode criar um banco no [Supabase](https://supabase.com/) e configurar o .env de acordo com os parâmetros de conexão do seu banco
+
 > Para os parâmetros do **AWS S3**, será necessário possuir uma conta AWS e criar seu próprio bucket S3 e configurar as variáveis de acordo com o serviço AWS
 
 5. Para executar as *migrations* e *seeds* do projeto, em um terminal na raiz do projeto, digite o comando:
