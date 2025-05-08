@@ -1,6 +1,6 @@
 # Backend do E-commerce FullStack
 
-Backend para o funcionamento do site do Ecommerce *FullStack*, usando rotas *HTTP* e as entidades relacionadas as regras de negócio da aplicação, com rotas autorizadas através de **JWT** e utilizando banco de dados Cache **Redis** para um desempenho melhor.
+Backend para o funcionamento do site do Ecommerce *FullStack*, usando rotas *HTTP* e as entidades relacionadas as regras de negócio da aplicação, com rotas autorizadas através de **JWT** e utilizando banco de dados Cache **Redis** para um desempenho maior para as requisições mais utilizadas.
 
 ## Sumário
 
@@ -67,16 +67,9 @@ cd nome-do-repositorio
 npm install
 ```
 
-4. Configure o arquivo de ambiente `.env` conforme o seu banco PostgreSQL.
+4. Configure o arquivo de ambiente `.env`.
 > Você pode criar um banco no [Supabase](https://supabase.com/) e configurar o .env de acordo com os parâmetros de conexão do seu banco
-
-<details>
-    <summary><b><i>Passos para a configuração inicial do banco</i></b></summary>
-
-    1. Caso esteja usando o psql, para criar o banco de dados digite o comando:
-    CREATE DATABASE ecommerce;
-    ⚠ Lembre-se que o nome do banco será usado para configurar a conexão com o banco de dados no arquivo .env
-</details>
+> Para os parâmetros do **AWS S3**, será necessário possuir uma conta AWS e criar seu próprio bucket S3 e configurar as variáveis de acordo com o serviço AWS
 
 5. Para executar as *migrations* e *seeds* do projeto, em um terminal na raiz do projeto, digite o comando:
 ```bash
@@ -100,7 +93,7 @@ Lembrando que dependendo do tipo de usuário que você criar, as rotas podem ter
 
 ```
 /src
-├── /config
+├── /aws
 ├── /controllers
 │   ├── entityController.js
 ├── /db
@@ -121,6 +114,8 @@ Lembrando que dependendo do tipo de usuário que você criar, as rotas podem ter
 ├── /services
 │   ├── /entity
 ├── /utils
+│   ├── /configs
+│   ├── /enums
 │   ├── /errors
 │   └── encryption.js
 └── server.js
