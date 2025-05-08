@@ -85,7 +85,7 @@ npm run start
 ```
 
 #### &#x26A0; JWT &#x26A0;
-Todas as rotas são protegidas por ***JWT*** (exceto a de registro, login e *refreshToken* e outras rotas estratégicas), então antes de executar qualquer requisição, crie um novo usuário na rota de registro, e faça o login na rota de login para obter o ***Access Token***. O ***Access Token*** tem um prazo de validade de apenas **1 minuto**, e para obter um novo token de acesso, basta executar a rota de *refreshToken*.
+Todas as rotas são protegidas por ***JWT*** (exceto a de registro, login e *refreshToken* e outras rotas estratégicas), então antes de executar qualquer requisição, crie um novo usuário na rota de registro, e faça o login na rota de login para obter o ***Access Token***. O ***Access Token*** tem um prazo de validade de apenas **30 segundos**, e para obter um novo token de acesso, basta executar a rota de *refreshToken*.
 > A duração é pequena para impedir danos relativos ao vazamento do token de acesso as rotas, para mais informações, acesse o conceito de [Access token e Refresh token](https://www.google.com/search?q=access%20token%20and%20refresh%20token%20jwt)
 
 Lembrando que dependendo do tipo de usuário que você criar, as rotas podem ter acesso restrito, permitindo que somente usuário com certos tipos de *role* possam acessar aquele recurso.
