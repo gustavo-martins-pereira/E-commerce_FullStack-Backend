@@ -1,0 +1,19 @@
+name: Deploy to EC2
+on:
+    push:
+        branches: master
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with:
+                node-version: lts/*
+
+            - name: Install Dependencies
+              run: npm install
