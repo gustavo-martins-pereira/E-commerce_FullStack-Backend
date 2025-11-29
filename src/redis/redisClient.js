@@ -12,13 +12,6 @@ redisClient.on("error", (err) => {
     console.error("Redis connection error:", err);
 });
 
-redisClient.on("end", () => {
-    console.warn("Redis client disconnected. Attempting to reconnect...");
-    redisClient.connect().catch(err => {
-        console.error("Redis reconnection failed:", err);
-    });
-});
-
 (async () => {
     try {
         await redisClient.connect();
